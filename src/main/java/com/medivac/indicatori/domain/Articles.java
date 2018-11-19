@@ -19,8 +19,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "categories")
-public class Categories {
+@Table(name = "articles")
+public class Articles {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,8 +33,8 @@ public class Categories {
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "group_id")
-	private String groupId;
+	@Column(name = "category_id")
+	private String categoryId;
 	
 	
 }

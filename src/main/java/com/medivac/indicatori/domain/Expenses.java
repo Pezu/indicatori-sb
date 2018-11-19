@@ -1,5 +1,7 @@
 package com.medivac.indicatori.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,22 +21,31 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "categories")
-public class Categories {
+@Table(name = "expenses")
+public class Expenses extends Updater {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 	
-	@Column(name = "code")
-	private String code;
+	@Column(name = "date")
+	private Date date;
 	
-	@Column(name = "name")
-	private String name;
+	@Column(name = "amount")
+	private Double amount;
 	
-	@Column(name = "group_id")
-	private String groupId;
+	@Column(name = "direct")
+	private Short direct;
+	
+	@Column(name = "article_id")
+	private Long articleId;
+	
+	@Column(name = "unit_id")
+	private Long unitId;
+	
+	@Column(name = "split_id")
+	private Date splitId;
 	
 	
 }

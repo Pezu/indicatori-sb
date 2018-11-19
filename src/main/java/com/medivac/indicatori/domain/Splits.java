@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -19,8 +17,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "categories")
-public class Categories {
+@Table(name = "splits")
+public class Splits {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,9 +30,6 @@ public class Categories {
 	
 	@Column(name = "name")
 	private String name;
-	
-	@Column(name = "group_id")
-	private String groupId;
 	
 	
 }

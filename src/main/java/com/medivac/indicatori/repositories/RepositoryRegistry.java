@@ -10,7 +10,13 @@ import lombok.Data;
 @Component
 public class RepositoryRegistry {
 
+    private final ArticlesRepository articlesRepository;
     private final CategoriesRepository categoriesRepository;
+    private final ExpensesRepository expensesRepository;
+    private final GroupsRepository groupsRepository;
+    private final SplitsRepository splitsRepository;
+    private final TokensRepository tokensRepository;
     private final UnitsRepository unitsRepository;
+    private final UsersRepository usersRepository;
  
 }

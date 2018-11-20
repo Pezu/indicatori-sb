@@ -19,8 +19,6 @@ import com.medivac.indicatori.service.LoginService;
 @RequestMapping("/user")
 public class LoginController {
 
-	// folosim catalog pentru "nomenclator" cred ca asa ii zici tu. Ala de iti definesti unitati de masura, tipuri de chestii, etc
-	
     private final LoginService loginService;
     
     @Autowired

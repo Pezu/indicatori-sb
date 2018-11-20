@@ -17,25 +17,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "users")
-public class Users{
+@Table(name = "splits")
+public class Split {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+	private Integer id;
 	
-	@Column(name = "username")
-	private String username;
-	
-	@Column(name = "password")
-	private String password;
+	@Column(name = "code")
+	private String code;
 	
 	@Column(name = "name")
 	private String name;
-	
-	@Column(name = "role")
-	private String role;
 	
 	
 }

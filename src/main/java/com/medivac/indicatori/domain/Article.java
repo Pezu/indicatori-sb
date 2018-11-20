@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -17,19 +19,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "units")
-public class Units {
+@Table(name = "articles")
+public class Article {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+	private Integer id;
 	
 	@Column(name = "code")
 	private String code;
 	
 	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "category_id")
+	private String categoryId;
 	
 	
 }

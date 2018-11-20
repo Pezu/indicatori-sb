@@ -1,8 +1,8 @@
 package com.medivac.indicatori.repositories;
 
-import com.medivac.indicatori.domain.Articles;
+import com.medivac.indicatori.domain.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ArticlesRepository extends JpaRepository<Articles, Long> {
+public interface ArticlesRepository extends JpaRepository<Article, Long> {
 
 }

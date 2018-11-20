@@ -1,8 +1,8 @@
 package com.medivac.indicatori.repositories;
 
-import com.medivac.indicatori.domain.Tokens;
+import com.medivac.indicatori.domain.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TokensRepository extends JpaRepository<Tokens, Long> {
+public interface TokensRepository extends JpaRepository<Token, Long> {
 
 }

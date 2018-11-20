@@ -24,12 +24,12 @@ public class CatalogController {
     }  
 	
     @GetMapping("/categories")
-    public List<Categories> getCategories() {
+    public List<Categorie> getCategories() {
         return catalogService.getCategories();
     }
     
     @GetMapping("/units")
-    public List<Units> getUnits() {
+    public List<Unit> getUnits() {
         return catalogService.getUnits();
     }
     

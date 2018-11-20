@@ -11,9 +11,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 
 @Data
@@ -23,7 +21,7 @@ public class Updater {
 
 	    @CreatedDate
 	    @Column(name = "created_at", nullable = false)
-	    private Date creationAt;
+	    private Date createdAt;
 
 	    @LastModifiedDate
 	    @Column(name = "updated_at", nullable = false)
@@ -31,14 +29,14 @@ public class Updater {
 
 	    @LastModifiedBy
 	    @Column(name = "updated_by", nullable = false, length = 50)
-	    private Long updatedBy;
+	    private Integer updatedBy;
 	    
-	    public void setUpdater(Long user) {
+	    public void setUpdater(Integer user) {
 	        Date now = new Date();
 	        try {
-	        	getCreationAt();
+	        	getCreatedAt();
 	        } catch (Exception e) {
-	        	setCreationAt(now);
+	        	setCreatedAt(now);
 	        }
 	        setUpdatedAt(now);
 	        setUpdatedBy(user);

@@ -1,8 +1,8 @@
 package com.medivac.indicatori.repositories;
 
-import com.medivac.indicatori.domain.Categories;
+import com.medivac.indicatori.domain.Categorie;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CategoriesRepository extends JpaRepository<Categories, Long> {
+public interface CategoriesRepository extends JpaRepository<Categorie, Long> {
 
 }

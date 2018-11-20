@@ -1,5 +1,9 @@
 package com.medivac.indicatori.rest;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,8 +31,12 @@ public class LoginController {
     @RequestMapping(value = "/login",
 				method = {RequestMethod.POST},
 				produces = {MediaType.APPLICATION_JSON_VALUE})
-    public LoginResponse login(@RequestBody LoginRequest request) {
-        return loginService.login(request);
+    public LoginResponse login(@RequestBody LoginRequest request, HttpServletResponse response) throws IOException {
+    	LoginResponse lr = loginService.login(request);
+    	if (lr == null) {
+    		response.sendError(1000, "Date de conectare eronate");
+    	}
+        return lr;
     }
     
 }

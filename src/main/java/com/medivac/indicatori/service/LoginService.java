@@ -37,6 +37,9 @@ public class LoginService {
 	}
 	
 	public Boolean verifyToken(String value) {
+		
+		if (value == null) return false;
+		
 		Token token = repositoryRegistry.getTokensRepository().findOneByToken(value);
 		if (token == null) return false;
 		
@@ -48,7 +51,7 @@ public class LoginService {
 	    token.setUpdater(token.getUpdatedBy());
 	    repositoryRegistry.getTokensRepository().save(token);
 		return true;
+		
 	}
-
     
 }

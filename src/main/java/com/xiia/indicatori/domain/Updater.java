@@ -34,7 +34,7 @@ public class Updater {
 	    public void setUpdater(Integer user) {
 	        Date now = new Date();
 	        try {
-	        	getCreatedAt();
+	        	if (getCreatedAt() == null) setCreatedAt(now);
 	        } catch (Exception e) {
 	        	setCreatedAt(now);
 	        }

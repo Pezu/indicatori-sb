@@ -1,9 +1,11 @@
 package com.xiia.indicatori.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.xiia.indicatori.domain.MonthlyAllowed;
 import com.xiia.indicatori.domain.Unit;
 import com.xiia.indicatori.repositories.RepositoryRegistry;
 
@@ -18,13 +20,17 @@ public class MonthlyService {
 
 	public List<Unit> getMonthlyAllowedUnits(Integer typeId) {
 		
-		System.out.println(typeId);
+		List<MonthlyAllowed> allowedList = this.repositoryRegistry.getMonthlyAllowedRepository().findAllByMonthlyTypeId(typeId);
+		List<Unit> units = new ArrayList<Unit>();
 		
-		System.out.println(this.repositoryRegistry.getMonthlyAllowedRepository().findAllByMonthlyTypeId(typeId));
+		for (MonthlyAllowed allowed : allowedList) {
+			units.add(allowed.getUnit());
+		}
 		
-		return null;
-
+		return units;
+		
 	}
-
+	
+	
     
 }

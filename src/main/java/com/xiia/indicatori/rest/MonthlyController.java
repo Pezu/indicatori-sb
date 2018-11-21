@@ -37,10 +37,10 @@ public class MonthlyController {
     										HttpServletResponse response, 
     										@RequestHeader("token") String token) 
     												throws IOException {
-//    	Boolean allowed = loginService.verifyToken(token);
-//    	if (!allowed) {
-//    		response.sendError(1001, "Token invalid");
-//    	}
+    	Boolean allowed = loginService.verifyToken(token);
+    	if (!allowed) {
+    		response.sendError(1001, "Token invalid");
+    	}
         return monthlyService.getMonthlyAllowedUnits(typeId);
     }
     

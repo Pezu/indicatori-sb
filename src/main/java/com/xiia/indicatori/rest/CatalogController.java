@@ -6,9 +6,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xiia.indicatori.domain.Category;
@@ -46,6 +49,20 @@ public class CatalogController {
     	}
 
         return catalogService.getUnits();
+    }
+    
+    @RequestMapping(value = "/children/{parent_id}",
+			method = {RequestMethod.GET},
+			produces = {MediaType.APPLICATION_JSON_VALUE})
+    public List<Unit> getChildUnits(@PathVariable("parent_id") Integer parentId,
+    								HttpServletResponse response, 
+    								@RequestHeader("token") String token) throws IOException {
+    	Boolean allowed = loginService.verifyToken(token);
+    	if (!allowed) {
+    		response.sendError(1001, "Token invalid");
+    	}
+
+        return catalogService.getChildUnits(parentId);
     }
     
 }

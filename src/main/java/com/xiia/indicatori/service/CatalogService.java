@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.xiia.indicatori.domain.Categorie;
+import com.xiia.indicatori.domain.Category;
 import com.xiia.indicatori.domain.Unit;
 import com.xiia.indicatori.repositories.RepositoryRegistry;
 
@@ -18,7 +18,7 @@ public class CatalogService {
 			this.repositoryRegistry = repositoryRegistry;
 			}
 
-	public List<Categorie> getCategories() {
+	public List<Category> getCategories() {
 		return repositoryRegistry.getCategoriesRepository().findAll(new Sort(Sort.Direction.ASC, "name"));
 	}
 

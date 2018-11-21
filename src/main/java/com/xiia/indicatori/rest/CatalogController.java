@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xiia.indicatori.domain.Categorie;
+import com.xiia.indicatori.domain.Category;
 import com.xiia.indicatori.domain.Unit;
 import com.xiia.indicatori.service.CatalogService;
 import com.xiia.indicatori.service.LoginService;
@@ -30,7 +30,7 @@ public class CatalogController {
     }  
 	
     @GetMapping("/categories")
-    public List<Categorie> getCategories(HttpServletResponse response, @RequestHeader("token") String token) throws IOException {
+    public List<Category> getCategories(HttpServletResponse response, @RequestHeader("token") String token) throws IOException {
     	Boolean allowed = loginService.verifyToken(token);
     	if (!allowed) {
     		response.sendError(1001, "Token invalid");

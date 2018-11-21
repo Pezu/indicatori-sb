@@ -18,7 +18,9 @@ public class MonthlyService {
 
 	public List<Unit> getMonthlyAllowedUnits(Integer typeId) {
 		
-		this.repositoryRegistry.getMonthlyAllowedRepository().findAllByMonthlyTypeId(typeId);
+		System.out.println(typeId);
+		
+		System.out.println(this.repositoryRegistry.getMonthlyAllowedRepository().findAllByMonthlyTypeId(typeId));
 		
 		return null;
 

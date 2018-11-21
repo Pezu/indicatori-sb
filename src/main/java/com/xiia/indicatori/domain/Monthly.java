@@ -1,9 +1,10 @@
 package com.xiia.indicatori.domain;
 
+import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -17,17 +18,19 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "monthly")
-public class Monthly {
-
+public class Monthly{
+	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", updatable = false, nullable = false)
+	private Integer id;
+	
 	@Column(name = "month")
 	private String month;
 	
-	@Id
 	@Column(name = "unit_id")
 	private Integer unitId;
 	
-	@Id
 	@Column(name = "type_id")
 	private Integer typeId;
 	

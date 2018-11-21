@@ -3,6 +3,7 @@ package com.xiia.indicatori.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "monthly")
-public class MonthlyAllowed {
+public class MonthlyAllowed{
 
 	@Id
 	@Column(name = "unit_id")
@@ -25,5 +26,7 @@ public class MonthlyAllowed {
 	@Id
 	@Column(name = "monthly_type_id")
 	private Integer monthlyTypeId;
+
+	
 	
 }

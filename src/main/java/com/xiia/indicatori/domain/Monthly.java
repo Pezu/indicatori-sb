@@ -3,6 +3,7 @@ package com.xiia.indicatori.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -32,6 +33,6 @@ public class Monthly {
 	
 	@Column(name = "value")
 	private Double value;
-	
+
 	
 }

@@ -18,5 +18,8 @@ public class RepositoryRegistry {
     private final TokensRepository tokensRepository;
     private final UnitsRepository unitsRepository;
     private final UsersRepository usersRepository;
+    private final MonthlyRepository monthlyRepository;
+    private final MonthlyAllowedRepository monthlyAllowedRepository;
+    private final MonthlyTypeRepository monthlyTypeRepository;
  
 }

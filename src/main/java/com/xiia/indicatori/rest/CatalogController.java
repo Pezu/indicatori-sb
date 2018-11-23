@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xiia.indicatori.domain.Category;
-import com.xiia.indicatori.domain.Unit;
+import com.xiia.indicatori.domain.*;
 import com.xiia.indicatori.service.CatalogService;
 import com.xiia.indicatori.service.LoginService;
 
@@ -51,18 +50,29 @@ public class CatalogController {
         return catalogService.getUnits();
     }
     
-    @RequestMapping(value = "/children/{parent_id}",
-			method = {RequestMethod.GET},
-			produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Unit> getChildUnits(@PathVariable("parent_id") Integer parentId,
-    								HttpServletResponse response, 
-    								@RequestHeader("token") String token) throws IOException {
+    @GetMapping("/mounthly-type")
+    public List<MonthlyType> getMonthlyType(HttpServletResponse response, @RequestHeader("token") String token) throws IOException {
     	Boolean allowed = loginService.verifyToken(token);
     	if (!allowed) {
     		response.sendError(1001, "Token invalid");
     	}
 
-        return catalogService.getChildUnits(parentId);
+        return catalogService.getMonthlyType();
     }
+
+//   banuies ca trebuie mutat
+//    @RequestMapping(value = "/children/{parent_id}",
+//			method = {RequestMethod.GET},
+//			produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public List<Unit> getChildUnits(@PathVariable("parent_id") Integer parentId,
+//    								HttpServletResponse response, 
+//    								@RequestHeader("token") String token) throws IOException {
+//    	Boolean allowed = loginService.verifyToken(token);
+//    	if (!allowed) {
+//    		response.sendError(1001, "Token invalid");
+//    	}
+//
+//        return catalogService.getChildUnits(parentId);
+//    }
     
 }

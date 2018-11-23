@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "monthly_allowed")
+@Table(name = "relations")
 public class Relation{
 
 	@Id

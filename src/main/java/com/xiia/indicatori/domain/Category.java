@@ -2,9 +2,12 @@ package com.xiia.indicatori.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -31,8 +34,9 @@ public class Category {
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "group_id")
-	private String groupId;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "group_id", nullable = false)
+	private Group group;
 	
 	
 }

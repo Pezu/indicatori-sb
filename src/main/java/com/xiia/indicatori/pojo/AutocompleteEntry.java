@@ -13,7 +13,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AutocompleteEntry{
 
+	private Integer id;
+	private String code;
 	private String name;
-	private List<ArticleEntry> articles;
+	private String groupCode;
+	private String categoryCode;
 	
 }

@@ -71,21 +71,29 @@ public class CatalogService {
 
 	public List<AutocompleteEntry> getArticlesForAutocomplete() {
 		List<Article> articles = repositoryRegistry.getArticlesRepository().findAll();
-		Map<String, List<ArticleEntry>> map = new HashMap<String, List<ArticleEntry>>();
-		
-		for (Article article : articles) {
-			String key = article.getCategory().getGroup().getCode() + " - " + article.getCategory().getCode();
-			List<ArticleEntry> entries = map.get(key);
-			if (entries == null) entries = new ArrayList<ArticleEntry>();
-			entries.add(new ArticleEntry(article.getId(), article.getCode(), article.getName()));
-			map.put(key, entries);
-		}
-		
+//		Map<String, List<ArticleEntry>> map = new HashMap<String, List<ArticleEntry>>();
+//		
+//		for (Article article : articles) {
+//			String key = article.getCategory().getGroup().getCode() + " - " + article.getCategory().getCode();
+//			List<ArticleEntry> entries = map.get(key);
+//			if (entries == null) entries = new ArrayList<ArticleEntry>();
+//			entries.add(new ArticleEntry(article.getId(), article.getCode(), article.getName()));
+//			map.put(key, entries);
+//		}
+//		
 		List<AutocompleteEntry> response = new ArrayList<AutocompleteEntry>();
-		
-		for (String key : map.keySet()) {
-			response.add(new AutocompleteEntry(key, map.get(key)));
+		for (Article article : articles) {
+			response.add( new AutocompleteEntry(
+								article.getId(),
+								article.getCode(), 
+								article.getName(), 
+								article.getCategory().getGroup().getCode(), 
+								article.getCategory().getCode()));
 		}
+		
+//		for (String key : map.keySet()) {
+//			response.add(new AutocompleteEntry(key, map.get(key)));
+//		}
 		
 		return response;
 	}

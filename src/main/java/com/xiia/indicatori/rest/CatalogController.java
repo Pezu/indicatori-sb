@@ -115,12 +115,13 @@ public class CatalogController {
     @RequestMapping(value = "/autocomplete",
  			method = {RequestMethod.GET},
  			produces = {MediaType.APPLICATION_JSON_VALUE})
- 	public List<AutocompleteEntry> getArticlesForAutocomplete(HttpServletResponse response) 
+ 	public List<AutocompleteEntry> getArticlesForAutocomplete(HttpServletResponse response,
+ 																@RequestHeader("token") String token) 
  											throws IOException {
-// 		Boolean allowed = loginService.verifyToken(token);
-// 		if (!allowed) {
-// 			response.sendError(1001, "Token invalid");
-// 		}
+ 		Boolean allowed = loginService.verifyToken(token);
+ 		if (!allowed) {
+ 			response.sendError(1001, "Token invalid");
+ 		}
  		return catalogService.getArticlesForAutocomplete();
  	}
     

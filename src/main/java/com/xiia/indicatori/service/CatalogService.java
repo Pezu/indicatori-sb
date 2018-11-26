@@ -1,9 +1,7 @@
 package com.xiia.indicatori.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,7 +13,6 @@ import com.xiia.indicatori.domain.MonthlyType;
 import com.xiia.indicatori.domain.Relation;
 import com.xiia.indicatori.domain.Split;
 import com.xiia.indicatori.domain.Unit;
-import com.xiia.indicatori.pojo.ArticleEntry;
 import com.xiia.indicatori.pojo.AutocompleteEntry;
 import com.xiia.indicatori.repositories.RepositoryRegistry;
 
@@ -71,16 +68,7 @@ public class CatalogService {
 
 	public List<AutocompleteEntry> getArticlesForAutocomplete() {
 		List<Article> articles = repositoryRegistry.getArticlesRepository().findAll();
-//		Map<String, List<ArticleEntry>> map = new HashMap<String, List<ArticleEntry>>();
-//		
-//		for (Article article : articles) {
-//			String key = article.getCategory().getGroup().getCode() + " - " + article.getCategory().getCode();
-//			List<ArticleEntry> entries = map.get(key);
-//			if (entries == null) entries = new ArrayList<ArticleEntry>();
-//			entries.add(new ArticleEntry(article.getId(), article.getCode(), article.getName()));
-//			map.put(key, entries);
-//		}
-//		
+
 		List<AutocompleteEntry> response = new ArrayList<AutocompleteEntry>();
 		for (Article article : articles) {
 			response.add( new AutocompleteEntry(
@@ -90,10 +78,6 @@ public class CatalogService {
 								article.getCategory().getGroup().getCode(), 
 								article.getCategory().getCode()));
 		}
-		
-//		for (String key : map.keySet()) {
-//			response.add(new AutocompleteEntry(key, map.get(key)));
-//		}
 		
 		return response;
 	}

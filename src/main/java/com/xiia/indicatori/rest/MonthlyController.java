@@ -50,7 +50,7 @@ public class MonthlyController {
     @RequestMapping(value = "/get/{month}/{type_id}",
 			method = {RequestMethod.GET},
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	public List<Monthly> getMonthlyValues(@PathVariable("type_id") String month,
+	public List<Monthly> getMonthlyValues(@PathVariable("month") String month,
 									@PathVariable("type_id") Integer typeId, 
 									HttpServletResponse response, 
 									@RequestHeader("token") String token) 
@@ -63,7 +63,7 @@ public class MonthlyController {
 	}
     
     @RequestMapping(value = "/update",
-			method = {RequestMethod.GET},
+			method = {RequestMethod.POST},
 			produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Boolean updateMonthlyValues(@RequestBody List<MonthlyUpdate> list,
 									HttpServletResponse response, 

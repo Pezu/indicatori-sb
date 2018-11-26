@@ -34,7 +34,6 @@ public class MonthlyService {
 	}
 
 	public List<Monthly> getMonthlyByMonthAndTypeId(String month, Integer typeId) {
-		
 		return repositoryRegistry.getMonthlyRepository().findAllByMonthAndTypeId(month, typeId);
 		
 	}
@@ -50,8 +49,8 @@ public class MonthlyService {
 				
 				repositoryRegistry.getMonthlyRepository().save(new Monthly(monthly == null ? null : monthly.getId(), 
 																			update.getMonth(), 
-																			update.getTypeId(),
 																			update.getUnitId(), 
+																			update.getTypeId(),
 																			update.getValue()));
 			}
 			

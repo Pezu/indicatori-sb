@@ -22,5 +22,6 @@ public class RepositoryRegistry {
     private final MonthlyAllowedRepository monthlyAllowedRepository;
     private final MonthlyTypeRepository monthlyTypeRepository;
     private final RelationsRepository relationsRepository;
+    private final PercentagesRepository percentageRepository;
  
 }

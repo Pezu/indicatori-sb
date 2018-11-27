@@ -42,8 +42,8 @@ public class ExpensesController {
 									HttpServletResponse response, 
 									@RequestHeader("token") String token) 
 											throws IOException {
-		Boolean allowed = loginService.verifyToken(token);
-		if (!allowed) {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
 			response.sendError(1001, "Token invalid");
 		}
 		
@@ -56,10 +56,11 @@ public class ExpensesController {
 	public Boolean insertExpense(@RequestBody Expense expense,
 								@RequestHeader("token") String token,
 								HttpServletResponse response) throws IOException {
-    	Boolean allowed = loginService.verifyToken(token);
-		if (!allowed) {
+    	Integer user = loginService.verifyToken(token);
+		if (user == null) {
 			response.sendError(1001, "Token invalid");
 		}
+		expense.setUpdater(user);
 		
 		return expenseService.insertExpense(expense);
 	}
@@ -70,8 +71,8 @@ public class ExpensesController {
 	public void insertExpense(@PathVariable("expense_id") Long expenseId,
 							@RequestHeader("token") String token,
 							HttpServletResponse response) throws IOException {
-		Boolean allowed = loginService.verifyToken(token);
-		if (!allowed) {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
 			response.sendError(1001, "Token invalid");
 		}
 		
@@ -84,8 +85,8 @@ public class ExpensesController {
 	public List<Expense> get(@RequestBody ExpenseFilter filter,
 							@RequestHeader("token") String token,
 							HttpServletResponse response) throws IOException {
-		Boolean allowed = loginService.verifyToken(token);
-		if (!allowed) {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
 			response.sendError(1001, "Token invalid");
 		}
 		

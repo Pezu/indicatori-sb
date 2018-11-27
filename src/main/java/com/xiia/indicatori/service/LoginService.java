@@ -36,21 +36,21 @@ public class LoginService {
 		return response;
 	}
 	
-	public Boolean verifyToken(String value) {
+	public Integer verifyToken(String value) {
 		
-		if (value == null) return false;
+		if (value == null) return null;
 		
 		Token token = repositoryRegistry.getTokensRepository().findOneByToken(value);
-		if (token == null) return false;
+		if (token == null) return null;
 		
 		long diffInMillies = (new Date()).getTime() - token.getUpdatedAt().getTime();
 	    long diff = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
 	    
-	    if (diff > EXPIRE_TIME_IN_MINUTES) return false;
+	    if (diff > EXPIRE_TIME_IN_MINUTES) return null;
 	    
 	    token.setUpdater(token.getUpdatedBy());
 	    repositoryRegistry.getTokensRepository().save(token);
-		return true;
+		return token.getUpdatedBy();
 		
 	}
     

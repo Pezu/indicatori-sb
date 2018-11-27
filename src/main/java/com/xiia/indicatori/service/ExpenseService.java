@@ -91,7 +91,7 @@ public class ExpenseService {
 			sb.append(" and article_id = ");
 			sb.append(filter.getArticleId());
 		}
-        Query query = entityManager.createNativeQuery(sb.toString());
+        Query query = entityManager.createNativeQuery(sb.toString(), Expense.class);
         List<Expense> expenses = new ArrayList<Expense>();
         for (Object expense : query.getResultList()) {
         	expenses.add((Expense)expense);

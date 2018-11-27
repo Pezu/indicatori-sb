@@ -40,8 +40,8 @@ public class MonthlyController {
     										HttpServletResponse response, 
     										@RequestHeader("token") String token) 
     												throws IOException {
-    	Boolean allowed = loginService.verifyToken(token);
-    	if (!allowed) {
+    	Integer user = loginService.verifyToken(token);
+    	if (user == null) {
     		response.sendError(1001, "Token invalid");
     	}
         return monthlyService.getMonthlyAllowedUnits(typeId);
@@ -55,8 +55,8 @@ public class MonthlyController {
 									HttpServletResponse response, 
 									@RequestHeader("token") String token) 
 											throws IOException {
-		Boolean allowed = loginService.verifyToken(token);
-		if (!allowed) {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
 			response.sendError(1001, "Token invalid");
 		}
 		return monthlyService.getMonthlyByMonthAndTypeId(month, typeId);
@@ -69,8 +69,8 @@ public class MonthlyController {
 									HttpServletResponse response, 
 									@RequestHeader("token") String token) 
 											throws IOException {
-		Boolean allowed = loginService.verifyToken(token);
-		if (!allowed) {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
 			response.sendError(1001, "Token invalid");
 		}
 		

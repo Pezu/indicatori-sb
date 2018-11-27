@@ -39,8 +39,8 @@ public class CatalogController {
 	
     @GetMapping("/categories")
     public List<Category> getCategories(HttpServletResponse response, @RequestHeader("token") String token) throws IOException {
-    	Boolean allowed = loginService.verifyToken(token);
-    	if (!allowed) {
+    	Integer user = loginService.verifyToken(token);
+    	if (user == null) {
     		response.sendError(1001, "Token invalid");
     	}
         return catalogService.getCategories();
@@ -48,8 +48,8 @@ public class CatalogController {
     
     @GetMapping("/units")
     public List<Unit> getUnits(HttpServletResponse response, @RequestHeader("token") String token) throws IOException {
-    	Boolean allowed = loginService.verifyToken(token);
-    	if (!allowed) {
+    	Integer user = loginService.verifyToken(token);
+    	if (user == null) {
     		response.sendError(1001, "Token invalid");
     	}
 
@@ -58,8 +58,8 @@ public class CatalogController {
     
     @GetMapping("/mounthly-type")
     public List<MonthlyType> getMonthlyType(HttpServletResponse response, @RequestHeader("token") String token) throws IOException {
-    	Boolean allowed = loginService.verifyToken(token);
-    	if (!allowed) {
+    	Integer user = loginService.verifyToken(token);
+    	if (user == null) {
     		response.sendError(1001, "Token invalid");
     	}
 
@@ -68,8 +68,8 @@ public class CatalogController {
     
     @GetMapping("/groups")
     public List<Group> getGroups(HttpServletResponse response, @RequestHeader("token") String token) throws IOException {
-    	Boolean allowed = loginService.verifyToken(token);
-    	if (!allowed) {
+    	Integer user = loginService.verifyToken(token);
+    	if (user == null) {
     		response.sendError(1001, "Token invalid");
     	}
         return catalogService.getGroups();
@@ -77,8 +77,8 @@ public class CatalogController {
     
     @GetMapping("/splits")
     public List<Split> getSplits(HttpServletResponse response, @RequestHeader("token") String token) throws IOException {
-    	Boolean allowed = loginService.verifyToken(token);
-    	if (!allowed) {
+    	Integer user = loginService.verifyToken(token);
+    	if (user == null) {
     		response.sendError(1001, "Token invalid");
     	}
         return catalogService.getSplits();
@@ -91,8 +91,8 @@ public class CatalogController {
 									HttpServletResponse response, 
 									@RequestHeader("token") String token) 
 											throws IOException {
-		Boolean allowed = loginService.verifyToken(token);
-		if (!allowed) {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
 			response.sendError(1001, "Token invalid");
 		}
 		return catalogService.getCategoriesByGroupId(groupId);
@@ -105,8 +105,8 @@ public class CatalogController {
 									HttpServletResponse response,
 									@RequestHeader("token") String token) 
 											throws IOException {
-		Boolean allowed = loginService.verifyToken(token);
-		if (!allowed) {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
 			response.sendError(1001, "Token invalid");
 		}
 		return catalogService.getArticlesByCategoryId(categoryId);
@@ -118,8 +118,8 @@ public class CatalogController {
  	public List<AutocompleteEntry> getArticlesForAutocomplete(HttpServletResponse response,
  																@RequestHeader("token") String token) 
  											throws IOException {
- 		Boolean allowed = loginService.verifyToken(token);
- 		if (!allowed) {
+ 		Integer user = loginService.verifyToken(token);
+ 		if (user == null) {
  			response.sendError(1001, "Token invalid");
  		}
  		return catalogService.getArticlesForAutocomplete();
@@ -131,8 +131,8 @@ public class CatalogController {
     public List<Unit> getChildUnits(@PathVariable("parent_id") Integer parentId,
     								HttpServletResponse response, 
     								@RequestHeader("token") String token) throws IOException {
-    	Boolean allowed = loginService.verifyToken(token);
-    	if (!allowed) {
+    	Integer user = loginService.verifyToken(token);
+    	if (user == null) {
     		response.sendError(1001, "Token invalid");
     	}
 

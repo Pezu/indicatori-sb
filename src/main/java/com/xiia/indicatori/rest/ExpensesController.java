@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xiia.indicatori.domain.Percentage;
+import com.xiia.indicatori.pojo.SplitPercentage;
 import com.xiia.indicatori.service.ExpenseService;
 import com.xiia.indicatori.service.LoginService;
 
@@ -34,7 +34,7 @@ public class ExpensesController {
     @RequestMapping(value = "/percentage/{unit_id}/{article_id}",
 			method = {RequestMethod.GET},
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	public List<Percentage> getPercentages(@PathVariable("unit_id") Integer unit,
+	public List<SplitPercentage> getPercentages(@PathVariable("unit_id") Integer unit,
 									@PathVariable("article_id") Integer article,
 									HttpServletResponse response, 
 									@RequestHeader("token") String token) 

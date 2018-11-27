@@ -18,7 +18,7 @@ public class ExpenseService {
 	}
 
 	public List<Percentage> getPercentages(PercentageRequest request) {
-		return repositoryRegistry.getExpensesRepository().findAllByArticleIdAndChildIdAndParentId(request.getArticleId(), request.getChildId(), request.getParentId());
+		return repositoryRegistry.getPercentageRepository().findAllByArticleIdAndChildIdAndParentId(request.getArticleId(), request.getChildId(), request.getParentId());
 	}
 
     

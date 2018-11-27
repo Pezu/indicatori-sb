@@ -9,6 +9,4 @@ import com.xiia.indicatori.domain.Percentage;
 
 public interface ExpensesRepository extends JpaRepository<Expense, Long> {
 
-	List<Percentage> findAllByArticleIdAndChildIdAndParentId(Integer articleId, Integer childId, Integer parentId);
-
 }

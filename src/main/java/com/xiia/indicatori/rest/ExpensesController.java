@@ -8,11 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xiia.indicatori.domain.Expense;
 import com.xiia.indicatori.pojo.SplitPercentage;
 import com.xiia.indicatori.service.ExpenseService;
 import com.xiia.indicatori.service.LoginService;
@@ -45,6 +47,47 @@ public class ExpensesController {
 		}
 		
 		return expenseService.getPercentages(article, unit);
+	}
+    
+    @RequestMapping(value = "/insert",
+					method = {RequestMethod.POST},
+					produces = {MediaType.APPLICATION_JSON_VALUE})
+	public Boolean insertExpense(@RequestBody Expense expense,
+								@RequestHeader("token") String token,
+								HttpServletResponse response) throws IOException {
+    	Boolean allowed = loginService.verifyToken(token);
+		if (!allowed) {
+			response.sendError(1001, "Token invalid");
+		}
+		
+		return expenseService.insertExpense(expense);
+	}
+    
+    @RequestMapping(value = "/delete/{expense_id}",
+			method = {RequestMethod.GET},
+			produces = {MediaType.APPLICATION_JSON_VALUE})
+	public void insertExpense(@PathVariable("expense_id") Long expenseId,
+							@RequestHeader("token") String token,
+							HttpServletResponse response) throws IOException {
+		Boolean allowed = loginService.verifyToken(token);
+		if (!allowed) {
+			response.sendError(1001, "Token invalid");
+		}
+		
+		expenseService.deleteExpense(expenseId);
+	}
+    
+    @RequestMapping(value = "/get",
+			method = {RequestMethod.GET},
+			produces = {MediaType.APPLICATION_JSON_VALUE})
+	public List<Expense> get(@RequestHeader("token") String token,
+							HttpServletResponse response) throws IOException {
+		Boolean allowed = loginService.verifyToken(token);
+		if (!allowed) {
+			response.sendError(1001, "Token invalid");
+		}
+		
+		return expenseService.getAllExpenses();
 	}
 	
 }

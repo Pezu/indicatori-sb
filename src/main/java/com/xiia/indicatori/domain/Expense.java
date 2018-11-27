@@ -27,23 +27,35 @@ public class Expense extends Updater {
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 	
-	@Column(name = "date")
-	private Date date;
+	@Column(name = "unit_id")
+	private Long unitId;
+	
+	@Column(name = "article_id")
+	private Long articleId;
+	
+	@Column(name = "group_id")
+	private Long groupId;
+	
+	@Column(name = "category_id")
+	private Long categoryId;
+	
+	@Column(name = "month")
+	private String month;
 	
 	@Column(name = "amount")
 	private Double amount;
 	
 	@Column(name = "direct")
-	private Short direct;
-	
-	@Column(name = "article_id")
-	private Long articleId;
-	
-	@Column(name = "unit_id")
-	private Long unitId;
+	private Boolean direct;
 	
 	@Column(name = "split_id")
 	private Date splitId;
+	
+	@Column(name = "parent_id")
+	private Integer parentId;
+	
+	@Column(name = "description")
+	private String description;
 	
 	
 }

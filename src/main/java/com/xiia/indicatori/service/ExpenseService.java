@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.xiia.indicatori.domain.Expense;
 import com.xiia.indicatori.domain.Percentage;
 import com.xiia.indicatori.domain.Relation;
 import com.xiia.indicatori.pojo.SplitPercentage;
@@ -24,10 +25,9 @@ public class ExpenseService {
 	public List<SplitPercentage> getPercentages(Integer article, Integer unit) {
 		List<Percentage> percentages = repositoryRegistry.getPercentageRepository().findAllByArticleIdAndParentId(article, unit);
 		Map<Integer, Double> map = new HashMap<Integer, Double>();
-		 for(Percentage percentage : percentages) {
-			 map.put(percentage.getChildId(), percentage.getValue());
-		 }
-		
+		for(Percentage percentage : percentages) {
+			map.put(percentage.getChildId(), percentage.getValue());
+		}
 		
 		List<Relation> relationList = repositoryRegistry.getRelationsRepository().findAllByParentId(unit);
 		List<SplitPercentage> response = new ArrayList<SplitPercentage>();
@@ -50,5 +50,17 @@ public class ExpenseService {
 		return d == null ? 0d : d;
 	}
 
-    
+	public Boolean insertExpense(Expense expense) {
+		Expense response = repositoryRegistry.getExpensesRepository().save(expense);
+		if (response.getId() != null) return true;
+		return false;
+	}
+
+	public void deleteExpense(Long expenseId) {
+		repositoryRegistry.getExpensesRepository().deleteById(expenseId);
+	}
+
+	public List<Expense> getAllExpenses() {
+		return repositoryRegistry.getExpensesRepository().findAll();
+	}
 }

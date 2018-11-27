@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xiia.indicatori.domain.Expense;
+import com.xiia.indicatori.pojo.ExpenseFilter;
 import com.xiia.indicatori.pojo.SplitPercentage;
 import com.xiia.indicatori.service.ExpenseService;
 import com.xiia.indicatori.service.LoginService;
@@ -78,16 +79,17 @@ public class ExpensesController {
 	}
     
     @RequestMapping(value = "/get",
-			method = {RequestMethod.GET},
+			method = {RequestMethod.POST},
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	public List<Expense> get(@RequestHeader("token") String token,
+	public List<Expense> get(@RequestBody ExpenseFilter filter,
+							@RequestHeader("token") String token,
 							HttpServletResponse response) throws IOException {
 		Boolean allowed = loginService.verifyToken(token);
 		if (!allowed) {
 			response.sendError(1001, "Token invalid");
 		}
 		
-		return expenseService.getAllExpenses();
+		return expenseService.getAllExpenses(filter);
 	}
 	
 }

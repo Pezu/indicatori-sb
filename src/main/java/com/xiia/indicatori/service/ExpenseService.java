@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.xiia.indicatori.domain.Expense;
 import com.xiia.indicatori.domain.Percentage;
 import com.xiia.indicatori.domain.Relation;
+import com.xiia.indicatori.pojo.ExpenseFilter;
 import com.xiia.indicatori.pojo.SplitPercentage;
 import com.xiia.indicatori.repositories.RepositoryRegistry;
 
@@ -60,7 +61,7 @@ public class ExpenseService {
 		repositoryRegistry.getExpensesRepository().deleteById(expenseId);
 	}
 
-	public List<Expense> getAllExpenses() {
+	public List<Expense> getAllExpenses(ExpenseFilter filter) {
 		return repositoryRegistry.getExpensesRepository().findAll();
 	}
 }

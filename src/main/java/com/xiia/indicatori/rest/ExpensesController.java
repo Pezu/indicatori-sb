@@ -7,14 +7,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xiia.indicatori.domain.Percentage;
-import com.xiia.indicatori.pojo.PercentageRequest;
 import com.xiia.indicatori.service.ExpenseService;
 import com.xiia.indicatori.service.LoginService;
 
@@ -31,10 +30,12 @@ public class ExpensesController {
         this.loginService = loginService;
     }  
 	
-    @RequestMapping(value = "/percentage",
-			method = {RequestMethod.POST},
+    
+    @RequestMapping(value = "/percentage/{parent_id}/{article_id}",
+			method = {RequestMethod.GET},
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	public List<Percentage> getPercentages(@RequestBody PercentageRequest request,
+	public List<Percentage> getPercentages(@PathVariable("parent_id") Integer unit,
+									@PathVariable("article_id") Integer article,
 									HttpServletResponse response, 
 									@RequestHeader("token") String token) 
 											throws IOException {
@@ -43,7 +44,7 @@ public class ExpensesController {
 			response.sendError(1001, "Token invalid");
 		}
 		
-		return expenseService.getPercentages(request);
+		return expenseService.getPercentages(article, unit);
 	}
 	
 }

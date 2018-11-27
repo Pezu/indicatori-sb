@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.xiia.indicatori.domain.Percentage;
-import com.xiia.indicatori.pojo.PercentageRequest;
 import com.xiia.indicatori.repositories.RepositoryRegistry;
 
 @Service
@@ -17,8 +16,8 @@ public class ExpenseService {
     	this.repositoryRegistry = repositoryRegistry;
 	}
 
-	public List<Percentage> getPercentages(PercentageRequest request) {
-		return repositoryRegistry.getPercentageRepository().findAllByArticleIdAndChildIdAndParentId(request.getArticleId(), request.getChildId(), request.getParentId());
+	public List<Percentage> getPercentages(Integer article, Integer unit) {
+		return repositoryRegistry.getPercentageRepository().findAllByArticleIdAndParentId(article, unit);
 	}
 
     

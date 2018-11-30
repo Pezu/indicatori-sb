@@ -28,4 +28,16 @@ public class ExpenseFilter{
 	@JsonProperty("unitId")
 	private Integer unitId;
 	
+	@JsonProperty("pageSize")
+	private Integer pageSize;
+	
+	@JsonProperty("pageNo")
+	private Integer pageNo;
+	
+	@JsonProperty("root")
+	private Boolean root;
+	
+	@JsonProperty("split")
+	private Boolean split;
+	
 }

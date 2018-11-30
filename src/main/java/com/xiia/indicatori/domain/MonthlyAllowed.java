@@ -23,10 +23,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "monthly_allowed")
 public class MonthlyAllowed{
 
+	//unit_id.type_id
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
-	private Integer id;
+	private String id;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "unit_id", nullable = false)

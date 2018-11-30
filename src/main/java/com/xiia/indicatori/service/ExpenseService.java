@@ -91,6 +91,16 @@ public class ExpenseService {
 			sb.append(" and article_id = ");
 			sb.append(filter.getArticleId());
 		}
+		if (filter.getRoot() == true) {
+			sb.append(" and parent_id = null");
+		}
+		if (filter.getSplit() == true) {
+			sb.append(" and split_id = null");
+		}
+		sb.append(" limit ");
+		sb.append(filter.getPageSize());
+		sb.append(" offset ");
+		sb.append(filter.getPageNo() * filter.getPageSize());
         Query query = entityManager.createNativeQuery(sb.toString(), Expense.class);
         List<Expense> expenses = new ArrayList<Expense>();
         for (Object expense : query.getResultList()) {

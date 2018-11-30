@@ -23,10 +23,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "relations")
 public class Relation{
 
+	//child_id.parent_id
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
-	private Integer id;
+	private String id;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "child_id", nullable = false)

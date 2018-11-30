@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 public class Article {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "id", updatable = false, nullable = false)
 	private Integer id;
 	

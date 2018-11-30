@@ -20,10 +20,11 @@ import lombok.NoArgsConstructor;
 @Table(name = "monthly")
 public class Monthly{
 	
+	
+	//month.unit_id.type_id
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
-	private Integer id;
+	private String id;
 	
 	@Column(name = "month")
 	private String month;

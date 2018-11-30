@@ -40,27 +40,22 @@ public class MonthlyService {
 
 	public Boolean update(List<MonthlyUpdate> list) {
 		
-		try {
-			for (MonthlyUpdate update : list) {
-				Monthly monthly = repositoryRegistry.getMonthlyRepository()
-													.findOneByMonthAndTypeIdAndUnitId(update.getMonth(), 
-																						update.getTypeId(),
-																						update.getUnitId());
-				
-				repositoryRegistry.getMonthlyRepository().save(new Monthly(monthly == null ? null : monthly.getId(), 
-																			update.getMonth(), 
-																			update.getUnitId(), 
-																			update.getTypeId(),
-																			update.getValue()));
-			}
-			
-			return true;
-			
-		} catch (Exception e) {
-			return false;
+		for (MonthlyUpdate update : list) {
+			Monthly monthly = new Monthly(getMonthlyId(update), update.getMonth(), update.getUnitId(), update.getTypeId(), update.getValue());
+			repositoryRegistry.getMonthlyRepository().save(monthly);
 		}
+		
+		return true;
 	}
 	
+	public String getMonthlyId(MonthlyUpdate update) {
+		StringBuilder sb = new StringBuilder(update.getMonth());
+		sb.append(".");
+		sb.append(update.getUnitId());
+		sb.append(".");
+		sb.append(update.getTypeId());
+		return sb.toString();
+	}
 	
     
 }

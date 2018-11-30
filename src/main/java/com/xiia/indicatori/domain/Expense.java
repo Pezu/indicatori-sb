@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 public class Expense extends Updater {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 	

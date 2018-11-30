@@ -20,10 +20,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "percentages")
 public class Percentage {
 
+	//parent_id.child_id.article_id
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
-	private Integer id;
+	private String id;
 	
 	@Column(name = "parent_id")
 	private Integer parentId;

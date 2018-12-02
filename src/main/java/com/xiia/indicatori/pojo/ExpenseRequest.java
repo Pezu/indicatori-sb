@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExpenseFilter{
+public class ExpenseRequest{
 
 	@JsonProperty("month")
 	private String month;

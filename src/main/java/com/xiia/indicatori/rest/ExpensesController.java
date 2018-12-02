@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xiia.indicatori.domain.Expense;
-import com.xiia.indicatori.pojo.ExpenseFilter;
+import com.xiia.indicatori.pojo.ExpenseRequest;
+import com.xiia.indicatori.pojo.ExpenseResponse;
 import com.xiia.indicatori.pojo.SplitPercentage;
 import com.xiia.indicatori.service.ExpenseService;
 import com.xiia.indicatori.service.LoginService;
@@ -82,7 +83,7 @@ public class ExpensesController {
     @RequestMapping(value = "/get",
 			method = {RequestMethod.POST},
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	public List<Expense> get(@RequestBody ExpenseFilter filter,
+	public ExpenseResponse get(@RequestBody ExpenseRequest filter,
 							@RequestHeader("token") String token,
 							HttpServletResponse response) throws IOException {
 		Integer user = loginService.verifyToken(token);

@@ -1,5 +1,6 @@
 package com.xiia.indicatori.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,8 @@ import org.springframework.stereotype.Service;
 import com.xiia.indicatori.domain.Expense;
 import com.xiia.indicatori.domain.Percentage;
 import com.xiia.indicatori.domain.Relation;
-import com.xiia.indicatori.pojo.ExpenseFilter;
+import com.xiia.indicatori.pojo.ExpenseRequest;
+import com.xiia.indicatori.pojo.ExpenseResponse;
 import com.xiia.indicatori.pojo.SplitPercentage;
 import com.xiia.indicatori.repositories.RepositoryRegistry;
 
@@ -71,37 +73,52 @@ public class ExpenseService {
 	public List<Expense> getAllExpenses() {
 		return repositoryRegistry.getExpensesRepository().findAll();
 	}
-	public List<Expense> getAllExpenses(ExpenseFilter filter) {
+	public ExpenseResponse getAllExpenses(ExpenseRequest filter) {
 		StringBuilder sb = new StringBuilder("select * from expenses where month = '");
+		StringBuilder sbCount = new StringBuilder("select count(*) from expenses where month = '");
 		sb.append(filter.getMonth());
 		sb.append("'");
+		sbCount.append(filter.getMonth());
+		sbCount.append("'");
 		if (filter.getUnitId() != null) {
 			sb.append(" and unit_id = ");
 			sb.append(filter.getUnitId());
+			sbCount.append(" and unit_id = ");
+			sbCount.append(filter.getUnitId());
 		}
 		if (filter.getGroupId() != null) {
 			sb.append(" and group_id = ");
 			sb.append(filter.getGroupId());
+			sbCount.append(" and group_id = ");
+			sbCount.append(filter.getGroupId());
 		}
 		if (filter.getCategoryId() != null) {
 			sb.append(" and category_id = ");
 			sb.append(filter.getCategoryId());
+			sbCount.append(" and category_id = ");
+			sbCount.append(filter.getCategoryId());
 		}
 		if (filter.getArticleId() != null) {
 			sb.append(" and article_id = ");
 			sb.append(filter.getArticleId());
+			sbCount.append(" and article_id = ");
+			sbCount.append(filter.getArticleId());
 		}
 		if (filter.getRoot().intValue() == 0) {
 			sb.append(" and parent_id is null");
+			sbCount.append(" and parent_id is null");
 		}
 		if (filter.getRoot().intValue() == 1) {
 			sb.append(" and parent_id is not null");
+			sbCount.append(" and parent_id is not null");
 		}
 		if (filter.getSplit().intValue() == 0) {
 			sb.append(" and split_id is null");
+			sbCount.append(" and split_id is null");
 		}
 		if (filter.getSplit().intValue() == 1) {
 			sb.append(" and split_id is not null");
+			sbCount.append(" and split_id is not null");
 		}
 		sb.append(" limit ");
 		sb.append(filter.getPageSize());
@@ -112,6 +129,10 @@ public class ExpenseService {
         for (Object expense : query.getResultList()) {
         	expenses.add((Expense)expense);
         }
-        return expenses;
+        Query queryCount = entityManager.createNativeQuery(sbCount.toString());
+        BigInteger count = (BigInteger) queryCount.getSingleResult();
+        
+        ExpenseResponse response = new ExpenseResponse(expenses, count);
+        return response;
     }
 }

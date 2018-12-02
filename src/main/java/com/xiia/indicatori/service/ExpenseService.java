@@ -91,16 +91,22 @@ public class ExpenseService {
 			sb.append(" and article_id = ");
 			sb.append(filter.getArticleId());
 		}
-		if (filter.getRoot() == true) {
-			sb.append(" and parent_id = null");
+		if (filter.getRoot().intValue() == 0) {
+			sb.append(" and parent_id is null");
 		}
-		if (filter.getSplit() == true) {
-			sb.append(" and split_id = null");
+		if (filter.getRoot().intValue() == 1) {
+			sb.append(" and parent_id is not null");
+		}
+		if (filter.getSplit().intValue() == 0) {
+			sb.append(" and split_id is null");
+		}
+		if (filter.getSplit().intValue() == 1) {
+			sb.append(" and split_id is not null");
 		}
 		sb.append(" limit ");
 		sb.append(filter.getPageSize());
 		sb.append(" offset ");
-		sb.append(filter.getPageNo() * filter.getPageSize());
+		sb.append((filter.getPageNo() - 1) * filter.getPageSize());
         Query query = entityManager.createNativeQuery(sb.toString(), Expense.class);
         List<Expense> expenses = new ArrayList<Expense>();
         for (Object expense : query.getResultList()) {

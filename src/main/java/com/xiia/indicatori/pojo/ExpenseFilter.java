@@ -35,9 +35,9 @@ public class ExpenseFilter{
 	private Integer pageNo;
 	
 	@JsonProperty("root")
-	private Boolean root;
+	private Integer root;
 	
 	@JsonProperty("split")
-	private Boolean split;
+	private Integer split;
 	
 }

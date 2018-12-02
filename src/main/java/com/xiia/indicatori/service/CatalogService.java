@@ -26,11 +26,11 @@ public class CatalogService {
 	}
 
 	public List<Category> getCategories() {
-		return repositoryRegistry.getCategoriesRepository().findAll(new Sort(Sort.Direction.ASC, "name"));
+		return repositoryRegistry.getCategoriesRepository().findAll(new Sort(Sort.Direction.ASC, "id"));
 	}
 
 	public List<Unit> getUnits() {
-		return repositoryRegistry.getUnitsRepository().findAll(new Sort(Sort.Direction.ASC,"name"));
+		return repositoryRegistry.getUnitsRepository().findAll(new Sort(Sort.Direction.ASC,"id"));
 	}
 	
 	public List<MonthlyType> getMonthlyType() {

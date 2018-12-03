@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,11 +15,15 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Service;
 
 import com.xiia.indicatori.domain.Expense;
+import com.xiia.indicatori.domain.Monthly;
+import com.xiia.indicatori.domain.MonthlyAllowed;
 import com.xiia.indicatori.domain.Percentage;
 import com.xiia.indicatori.domain.Relation;
 import com.xiia.indicatori.pojo.ExpenseRequest;
 import com.xiia.indicatori.pojo.ExpenseResponse;
-import com.xiia.indicatori.pojo.SplitPercentage;
+import com.xiia.indicatori.pojo.SplitChild;
+import com.xiia.indicatori.pojo.SplitRequest;
+import com.xiia.indicatori.pojo.SplitDetails;
 import com.xiia.indicatori.repositories.RepositoryRegistry;
 
 @Service
@@ -32,38 +38,146 @@ public class ExpenseService {
     	this.entityManager = entityManager;
 	}
 
-	public List<SplitPercentage> getPercentages(Integer article, Integer unit) {
-		List<Percentage> percentages = repositoryRegistry.getPercentageRepository().findAllByArticleIdAndParentId(article, unit);
+	public SplitDetails getSplitDetails(SplitRequest request) {
+		
+		List<SplitChild> children;
+		switch(request.getSplit()) 
+        { 
+            case "PRC": 
+            	children = splitPercent(request.getArticle(), request.getParent(), request.getMonth());
+            case "SRF": 
+            	children = splitSurface(request.getArticle(), request.getParent(), request.getMonth()); 
+            case "MAN": 
+            	children = splitCustom(request.getArticle(), request.getParent(), request.getMonth()); 
+            case "HSD": 
+            	children = splitDays(request.getArticle(), request.getParent(), request.getMonth()); 
+            case "NON": 
+            	children = dontSplit(request.getArticle(), request.getParent(), request.getMonth()); 
+            default: 
+            	children = splitCustom(request.getArticle(), request.getParent(), request.getMonth()); 
+        } 
+		
+		SplitDetails response = new SplitDetails(children, request.getParent(), request.getSplit(), request.getMonth(), null);
+		return response;
+		
+	}
+	
+	private List<SplitChild> dontSplit(Integer article, Integer parent, String month) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private List<SplitChild> splitDays(Integer article, Integer parent, String month) {
+		
+		List<Monthly> monthlyList = repositoryRegistry.getMonthlyRepository().findAllByMonthAndTypeId(month, 1);
+		Map<Integer, Double> map = new HashMap<Integer, Double>();
+		for(Monthly monthly : monthlyList) {
+			map.put(monthly.getUnitId(), monthly.getValue());
+		}
+		
+		List<Expense> expenses = repositoryRegistry.getExpensesRepository().findAllByArticleIdAndParentIdAndMonth(article, parent, month);
+		Map<Integer, Double> mapValues = new HashMap<Integer, Double>();
+		for(Expense expense : expenses) {
+			mapValues.put(expense.getUnitId(), expense.getAmount());
+		}
+ 		
+		List<Relation> relationList = repositoryRegistry.getRelationsRepository().findAllByParentId(parent);
+		List<SplitChild> children = new ArrayList<SplitChild>();
+		
+		for (Relation relation : relationList) {
+			children.add(new SplitChild(relation.getChild().getId(), 
+										relation.getChild().getName(), 
+										zeroIfNull(mapValues.get(relation.getChild().getId())), 
+										zeroIfNull(map.get(relation.getChild().getId())), 
+										true));
+			
+		}
+		
+		return children;
+	}
+
+	private List<SplitChild> splitCustom(Integer article, Integer parent, String month) {
+		List<Expense> expenses = repositoryRegistry.getExpensesRepository().findAllByArticleIdAndParentIdAndMonth(article, parent, month);
+		Map<Integer, Double> mapValues = new HashMap<Integer, Double>();
+		for(Expense expense : expenses) {
+			mapValues.put(expense.getUnitId(), expense.getAmount());
+		}
+ 		
+		List<Relation> relationList = repositoryRegistry.getRelationsRepository().findAllByParentId(parent);
+		List<SplitChild> children = new ArrayList<SplitChild>();
+		
+		for (Relation relation : relationList) {
+			children.add(new SplitChild(relation.getChild().getId(), 
+										relation.getChild().getName(), 
+										zeroIfNull(mapValues.get(relation.getChild().getId())), 
+										null, 
+										true));
+			
+		}
+		
+		return children;
+	}
+
+	private List<SplitChild> splitSurface(Integer article, Integer parent, String month) {
+		
+		List<Expense> expenses = repositoryRegistry.getExpensesRepository().findAllByArticleIdAndParentIdAndMonth(article, parent, month);
+		Map<Integer, Double> mapValues = new HashMap<Integer, Double>();
+		for(Expense expense : expenses) {
+			mapValues.put(expense.getUnitId(), expense.getAmount());
+		}
+ 		
+		List<Relation> relationList = repositoryRegistry.getRelationsRepository().findAllByParentId(parent);
+		List<SplitChild> children = new ArrayList<SplitChild>();
+		
+		for (Relation relation : relationList) {
+			children.add(new SplitChild(relation.getChild().getId(), 
+										relation.getChild().getName(), 
+										zeroIfNull(mapValues.get(relation.getChild().getId())), 
+										zeroIfNull(relation.getChild().getArea()), 
+										true));
+			
+		}
+		
+		return children;
+	}
+
+	private List<SplitChild> splitPercent(Integer article, Integer parent, String month) {
+		
+		List<Percentage> percentages = repositoryRegistry.getPercentageRepository().findAllByArticleIdAndParentId(article, parent);
 		Map<Integer, Double> map = new HashMap<Integer, Double>();
 		for(Percentage percentage : percentages) {
 			map.put(percentage.getChildId(), percentage.getValue());
 		}
 		
-		List<Relation> relationList = repositoryRegistry.getRelationsRepository().findAllByParentId(unit);
-		List<SplitPercentage> response = new ArrayList<SplitPercentage>();
+		List<Expense> expenses = repositoryRegistry.getExpensesRepository().findAllByArticleIdAndParentIdAndMonth(article, parent, month);
+		Map<Integer, Double> mapValues = new HashMap<Integer, Double>();
+		for(Expense expense : expenses) {
+			mapValues.put(expense.getUnitId(), expense.getAmount());
+		}
+ 		
+		List<Relation> relationList = repositoryRegistry.getRelationsRepository().findAllByParentId(parent);
+		List<SplitChild> children = new ArrayList<SplitChild>();
 		
 		for (Relation relation : relationList) {
-			response.add(new SplitPercentage(relation.getChild().getId(), 
-											relation.getChild().getName(), 
-											article, 
-											0d, 
-											zeroIfNull(map.get(relation.getChild().getId())), 
-											true, 
-											unit));
+			children.add(new SplitChild(relation.getChild().getId(), 
+										relation.getChild().getName(), 
+										zeroIfNull(mapValues.get(relation.getChild().getId())), 
+										zeroIfNull(map.get(relation.getChild().getId())), 
+										true));
+			
 		}
 		
-		return response;
-		
+		return children;
 	}
-	
+
 	public Double zeroIfNull(Double d) {
 		return d == null ? 0d : d;
 	}
 
 	public Boolean insertExpense(Expense expense) {
-		Expense response = repositoryRegistry.getExpensesRepository().save(expense);
-		if (response.getId() != null) return true;
-		return false;
+		expense.setId(UUID.randomUUID().toString());
+		repositoryRegistry.getExpensesRepository().save(expense);
+		return true;
 	}
 
 	public void deleteExpense(Long expenseId) {
@@ -135,4 +249,26 @@ public class ExpenseService {
         ExpenseResponse response = new ExpenseResponse(expenses, count);
         return response;
     }
+
+	public Boolean isHsdAvailable(Integer unitId) {
+		
+		List<MonthlyAllowed> allowedList = repositoryRegistry.getMonthlyAllowedRepository().findAllByMonthlyTypeId(1);
+		List<Integer> allowedIds = allowedList.stream().map(o -> o.getUnit().getId()).distinct().collect(Collectors.toList());
+		
+		List<Relation> relationList = repositoryRegistry.getRelationsRepository().findAllByParentId(unitId);
+		List<Integer> children = relationList.stream().map(o -> o.getChild().getId()).collect(Collectors.toList());
+		
+		for (Integer child : children) {
+			if (!allowedIds.contains(child)) return false;
+		}
+		
+		return true;
+	}
+
+	public Boolean createSplit(SplitDetails request) {
+		return true;
+	}
+	public Boolean deleteSplit(String originalParentId) {
+		return true;
+	}
 }

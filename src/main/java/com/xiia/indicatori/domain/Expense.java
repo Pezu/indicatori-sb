@@ -22,22 +22,22 @@ import lombok.NoArgsConstructor;
 @Table(name = "expenses")
 public class Expense extends Updater {
 
+	//article_id.parent_id.month.child_id pentru cele generate sau uuid pentru cele introduse
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+	@Column(name = "id")
+	private String id;
 	
 	@Column(name = "unit_id")
-	private Long unitId;
+	private Integer unitId;
 	
 	@Column(name = "article_id")
-	private Long articleId;
+	private Integer articleId;
 	
 	@Column(name = "group_id")
-	private Long groupId;
+	private Integer groupId;
 	
 	@Column(name = "category_id")
-	private Long categoryId;
+	private Integer categoryId;
 	
 	@Column(name = "month")
 	private String month;
@@ -52,10 +52,12 @@ public class Expense extends Updater {
 	private Date splitId;
 	
 	@Column(name = "parent_id")
-	private Integer parentId;
+	private String parentId;
+	
+	@Column(name = "original_parent_id")
+	private String originalParentId;
 	
 	@Column(name = "description")
 	private String description;
-	
-	
+		
 }

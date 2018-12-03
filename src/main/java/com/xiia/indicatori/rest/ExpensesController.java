@@ -1,7 +1,6 @@
 package com.xiia.indicatori.rest;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xiia.indicatori.domain.Expense;
 import com.xiia.indicatori.pojo.ExpenseRequest;
 import com.xiia.indicatori.pojo.ExpenseResponse;
-import com.xiia.indicatori.pojo.SplitPercentage;
+import com.xiia.indicatori.pojo.SplitRequest;
+import com.xiia.indicatori.pojo.SplitDetails;
 import com.xiia.indicatori.service.ExpenseService;
 import com.xiia.indicatori.service.LoginService;
 
@@ -35,11 +35,10 @@ public class ExpensesController {
     }  
 	
     
-    @RequestMapping(value = "/percentage/{unit_id}/{article_id}",
-			method = {RequestMethod.GET},
+    @RequestMapping(value = "/split",
+			method = {RequestMethod.POST},
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	public List<SplitPercentage> getPercentages(@PathVariable("unit_id") Integer unit,
-									@PathVariable("article_id") Integer article,
+	public SplitDetails getSplitDetails(@RequestBody SplitRequest request,
 									HttpServletResponse response, 
 									@RequestHeader("token") String token) 
 											throws IOException {
@@ -48,7 +47,40 @@ public class ExpensesController {
 			response.sendError(1001, "Token invalid");
 		}
 		
-		return expenseService.getPercentages(article, unit);
+		return expenseService.getSplitDetails(request);
+		
+	}
+    
+    @RequestMapping(value = "/isHsdAvailable/{unit_id}",
+			method = {RequestMethod.GET},
+			produces = {MediaType.APPLICATION_JSON_VALUE})
+	public Boolean isHsdAvailable(@PathVariable("unit_id") Integer unitId,
+									HttpServletResponse response, 
+									@RequestHeader("token") String token) 
+											throws IOException {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
+			response.sendError(1001, "Token invalid");
+		}
+		
+		return expenseService.isHsdAvailable(unitId);
+		
+	}
+    
+    @RequestMapping(value = "/split-create",
+			method = {RequestMethod.POST},
+			produces = {MediaType.APPLICATION_JSON_VALUE})
+	public Boolean createSplit(@RequestBody SplitDetails request,
+									HttpServletResponse response, 
+									@RequestHeader("token") String token) 
+											throws IOException {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
+			response.sendError(1001, "Token invalid");
+		}
+		
+		return expenseService.createSplit(request);
+		
 	}
     
     @RequestMapping(value = "/insert",

@@ -9,15 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SplitPercentage {
+public class SplitChild {
 
 	private Integer unitId;
 	private String unitName;
-	private Integer articleId;
 	private Double value;
 	private Double weight;
 	private Boolean updateWeight;
-	private Integer parentId;
 	
 }
 

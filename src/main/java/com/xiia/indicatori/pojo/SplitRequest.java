@@ -11,9 +11,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SplitRequest{
 
-	private Integer parent;
-	private Integer article;
-	private String split;
+	private Integer parentUnitId;
+	private String expenseId;
+	private Integer articleId;
+	private String splitCode;
+	private Integer splitId;
 	private String month;
+	private Integer categoryId;
+	private Integer groupId;
 	
 }

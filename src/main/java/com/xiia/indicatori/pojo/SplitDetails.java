@@ -14,9 +14,14 @@ import lombok.NoArgsConstructor;
 public class SplitDetails{
 
 	private List<SplitChild> children;
-	private Integer parent;
-	private String split;
+	private Integer parentUnitId;
+	private String expenseId;
+	private Integer splitId;
+	private String splitCode;
 	private String month;
+	private Integer articleId;
+	private Integer categoryId;
+	private Integer groupId;
 	private Boolean updateWeight;
 	
 }

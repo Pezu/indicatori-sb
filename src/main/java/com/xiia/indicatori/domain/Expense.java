@@ -49,7 +49,7 @@ public class Expense extends Updater {
 	private Boolean direct;
 	
 	@Column(name = "split_id")
-	private Date splitId;
+	private Integer splitId;
 	
 	@Column(name = "parent_id")
 	private String parentId;

@@ -41,23 +41,23 @@ public class ExpenseService {
 	public SplitDetails getSplitDetails(SplitRequest request) {
 		
 		List<SplitChild> children;
-		switch(request.getSplit()) 
+		switch(request.getSplitCode()) 
         { 
             case "PRC": 
-            	children = splitPercent(request.getArticle(), request.getParent(), request.getMonth());
+            	children = splitPercent(request.getArticleId(), request.getParentUnitId(), request.getMonth());
             case "SRF": 
-            	children = splitSurface(request.getArticle(), request.getParent(), request.getMonth()); 
+            	children = splitSurface(request.getArticleId(), request.getParentUnitId(), request.getMonth()); 
             case "MAN": 
-            	children = splitCustom(request.getArticle(), request.getParent(), request.getMonth()); 
+            	children = splitCustom(request.getArticleId(), request.getParentUnitId(), request.getMonth()); 
             case "HSD": 
-            	children = splitDays(request.getArticle(), request.getParent(), request.getMonth()); 
+            	children = splitDays(request.getArticleId(), request.getParentUnitId(), request.getMonth()); 
             case "NON": 
-            	children = dontSplit(request.getArticle(), request.getParent(), request.getMonth()); 
+            	children = dontSplit(request.getArticleId(), request.getParentUnitId(), request.getMonth()); 
             default: 
-            	children = splitCustom(request.getArticle(), request.getParent(), request.getMonth()); 
+            	children = splitCustom(request.getArticleId(), request.getParentUnitId(), request.getMonth()); 
         } 
 		
-		SplitDetails response = new SplitDetails(children, request.getParent(), request.getSplit(), request.getMonth(), null);
+		SplitDetails response = new SplitDetails(children, request.getParentUnitId(), request.getExpenseId(), request.getSplitId(), request.getSplitCode(), request.getMonth(), request.getArticleId(), request.getCategoryId(), request.getGroupId(), true);
 		return response;
 		
 	}
@@ -266,6 +266,19 @@ public class ExpenseService {
 	}
 
 	public Boolean createSplit(SplitDetails request) {
+
+		Expense parentExpense = repositoryRegistry.getExpensesRepository().findOneById(request.getExpenseId());
+		
+		for (SplitChild split : request.getChildren()) {
+			StringBuilder sb = new StringBuilder();
+			
+			Expense expense = new Expense(sb.toString(), split.getUnitId(), request.getArticleId(), request.getGroupId(), request.getCategoryId(), request.getMonth(), split.getValue(), false, null, parentExpense.getId(), parentExpense.getOriginalParentId() == null ? parentExpense.getId() : parentExpense.getOriginalParentId(), parentExpense.getDescription());
+			repositoryRegistry.getExpensesRepository().save(expense);
+		}
+		
+		parentExpense.setSplitId(request.getSplitId());
+		repositoryRegistry.getExpensesRepository().save(parentExpense);
+		
 		return true;
 	}
 	public Boolean deleteSplit(String originalParentId) {

@@ -23,5 +23,7 @@ public class RepositoryRegistry {
     private final MonthlyTypeRepository monthlyTypeRepository;
     private final RelationsRepository relationsRepository;
     private final PercentagesRepository percentageRepository;
+    private final FixedRepository fixedRepository;
+    private final AccountsRepository accountsRepository;
  
 }

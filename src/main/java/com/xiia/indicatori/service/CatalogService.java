@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.xiia.indicatori.domain.Account;
 import com.xiia.indicatori.domain.Article;
 import com.xiia.indicatori.domain.Category;
 import com.xiia.indicatori.domain.Group;
@@ -80,6 +81,10 @@ public class CatalogService {
 		}
 		
 		return response;
+	}
+
+	public List<Account> getAccounts() {
+		return repositoryRegistry.getAccountsRepository().findAll();
 	}
     
 }

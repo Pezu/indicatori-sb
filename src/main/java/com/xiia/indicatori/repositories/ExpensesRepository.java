@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.xiia.indicatori.domain.Expense;
 
-public interface ExpensesRepository extends JpaRepository<Expense, Long> {
+public interface ExpensesRepository extends JpaRepository<Expense, String> {
 
-	public List<Expense> findAllByArticleIdAndParentIdAndMonth(Integer articleId, Integer parentId, String month);
+	public List<Expense> findAllByParentId(String parentId);
 
 	public Expense findOneById(String id);
+	
 }

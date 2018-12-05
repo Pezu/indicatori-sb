@@ -46,7 +46,6 @@ public class ExpensesController {
 		if (user == null) {
 			response.sendError(1001, "Token invalid");
 		}
-		
 		return expenseService.getSplitDetails(request);
 		
 	}
@@ -79,8 +78,22 @@ public class ExpensesController {
 			response.sendError(1001, "Token invalid");
 		}
 		
-		return expenseService.createSplit(request);
+		return expenseService.createSplit(request, user);
 		
+	}
+    
+    @RequestMapping(value = "/delete-split/{expense_id}",
+			method = {RequestMethod.GET},
+			produces = {MediaType.APPLICATION_JSON_VALUE})
+	public void deleteSplit(@PathVariable("expense_id") String expenseId,
+							@RequestHeader("token") String token,
+							HttpServletResponse response) throws IOException {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
+			response.sendError(1001, "Token invalid");
+		}
+		
+		expenseService.deleteSplit(expenseId, true);
 	}
     
     @RequestMapping(value = "/insert",
@@ -101,7 +114,7 @@ public class ExpensesController {
     @RequestMapping(value = "/delete/{expense_id}",
 			method = {RequestMethod.GET},
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	public void insertExpense(@PathVariable("expense_id") Long expenseId,
+	public void insertExpense(@PathVariable("expense_id") String expenseId,
 							@RequestHeader("token") String token,
 							HttpServletResponse response) throws IOException {
 		Integer user = loginService.verifyToken(token);

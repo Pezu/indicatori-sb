@@ -25,5 +25,6 @@ public class RepositoryRegistry {
     private final PercentagesRepository percentageRepository;
     private final FixedRepository fixedRepository;
     private final AccountsRepository accountsRepository;
+    private final FixedHistoryRepository fixedHistoryRepository;
  
 }

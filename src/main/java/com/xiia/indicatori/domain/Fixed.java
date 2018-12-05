@@ -36,7 +36,7 @@ public class Fixed {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "account_id", nullable = false)
-	private Group group;
+	private Account account;
 	
 	
 }

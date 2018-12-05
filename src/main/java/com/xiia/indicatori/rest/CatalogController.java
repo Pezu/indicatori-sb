@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xiia.indicatori.domain.Account;
 import com.xiia.indicatori.domain.Article;
 import com.xiia.indicatori.domain.Category;
 import com.xiia.indicatori.domain.Group;
@@ -44,6 +45,15 @@ public class CatalogController {
     		response.sendError(1001, "Token invalid");
     	}
         return catalogService.getCategories();
+    }
+    
+    @GetMapping("/accounts")
+    public List<Account> getAccounts(HttpServletResponse response, @RequestHeader("token") String token) throws IOException {
+    	Integer user = loginService.verifyToken(token);
+    	if (user == null) {
+    		response.sendError(1001, "Token invalid");
+    	}
+        return catalogService.getAccounts();
     }
     
     @GetMapping("/units")

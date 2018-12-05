@@ -8,6 +8,6 @@ import com.xiia.indicatori.domain.Relation;
 
 public interface RelationsRepository extends JpaRepository<Relation, Long> {
 	
-	public List<Relation> findAllByParentId(Integer typeId);
+	public List<Relation> findAllByParentId(Integer parentId);
 
 }

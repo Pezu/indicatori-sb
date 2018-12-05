@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xiia.indicatori.domain.Fixed;
+import com.xiia.indicatori.pojo.FixedCreateRequest;
+import com.xiia.indicatori.pojo.FixedMoveRequest;
+import com.xiia.indicatori.pojo.FixedRequest;
+import com.xiia.indicatori.pojo.FixedResponse;
 import com.xiia.indicatori.service.FixedService;
 import com.xiia.indicatori.service.LoginService;
 
@@ -29,10 +32,10 @@ public class FixedController {
         this.fixedService = fixedService;
     }  
 	
-    @RequestMapping(value = "/update",
+    @RequestMapping(value = "/create",
 			method = {RequestMethod.POST},
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Boolean updateFixed(@RequestBody Fixed fixed,
+	public Boolean updateFixed(@RequestBody FixedCreateRequest request,
 									HttpServletResponse response, 
 									@RequestHeader("token") String token) 
 											throws IOException {
@@ -41,7 +44,35 @@ public class FixedController {
 			response.sendError(1001, "Token invalid");
 		}
 		
-		return fixedService.update(fixed);
+		return fixedService.create(request, user);
 	}
-	
+    
+    @RequestMapping(value = "/get",
+			method = {RequestMethod.POST},
+			produces = {MediaType.APPLICATION_JSON_VALUE})
+	public FixedResponse get(@RequestBody FixedRequest request,
+							@RequestHeader("token") String token,
+							HttpServletResponse response) throws IOException {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
+			response.sendError(1001, "Token invalid");
+		}
+		
+		return fixedService.getFixed(request);
+	}
+
+    @RequestMapping(value = "/move",
+			method = {RequestMethod.POST},
+			produces = {MediaType.APPLICATION_JSON_VALUE})
+	public Boolean move(@RequestBody FixedMoveRequest request,
+							@RequestHeader("token") String token,
+							HttpServletResponse response) throws IOException {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
+			response.sendError(1001, "Token invalid");
+		}
+		
+		return fixedService.move(request, user);
+	}
+
 }

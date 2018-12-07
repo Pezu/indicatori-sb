@@ -1,18 +1,22 @@
 package com.xiia.indicatori.rest;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xiia.indicatori.domain.Category;
 import com.xiia.indicatori.pojo.FixedCreateRequest;
+import com.xiia.indicatori.pojo.FixedDetailResponse;
 import com.xiia.indicatori.pojo.FixedMoveRequest;
 import com.xiia.indicatori.pojo.FixedRequest;
 import com.xiia.indicatori.pojo.FixedResponse;
@@ -73,6 +77,20 @@ public class FixedController {
 		}
 		
 		return fixedService.move(request, user);
+	}
+    
+    @RequestMapping(value = "/details/{fixed_id}",
+			method = {RequestMethod.GET},
+			produces = {MediaType.APPLICATION_JSON_VALUE})
+	public FixedDetailResponse getCategoriesByGroupId(@PathVariable("fixed_id") Integer fixedId, 
+									HttpServletResponse response, 
+									@RequestHeader("token") String token) 
+											throws IOException {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
+			response.sendError(1001, "Token invalid");
+		}
+		return fixedService.getDetails(fixedId);
 	}
 
 }

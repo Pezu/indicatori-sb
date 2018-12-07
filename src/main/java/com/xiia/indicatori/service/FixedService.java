@@ -16,6 +16,7 @@ import com.xiia.indicatori.domain.Fixed;
 import com.xiia.indicatori.domain.FixedHistory;
 import com.xiia.indicatori.pojo.ExpenseResponse;
 import com.xiia.indicatori.pojo.FixedCreateRequest;
+import com.xiia.indicatori.pojo.FixedDetailResponse;
 import com.xiia.indicatori.pojo.FixedMoveRequest;
 import com.xiia.indicatori.pojo.FixedRequest;
 import com.xiia.indicatori.pojo.FixedResponse;
@@ -105,6 +106,19 @@ public class FixedService {
 		repositoryRegistry.getFixedRepository().save(fixed);
 		
 		return true;
+	}
+
+	public FixedDetailResponse getDetails(Integer fixedId) {
+		
+		Fixed fixed = repositoryRegistry.getFixedRepository().findById(fixedId).get();
+		if (fixed == null) return null;
+		
+		List<FixedHistory> historyList = repositoryRegistry.getFixedHistoryRepository().findAllByFixedId(fixedId);
+		
+		FixedDetailResponse response = new FixedDetailResponse(historyList, fixed.getCode(), fixed.getName());
+		
+		return response;
+		
 	}
     
 }

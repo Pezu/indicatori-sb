@@ -97,6 +97,7 @@ public class FixedService {
 
 	public Boolean move(FixedMoveRequest request, Integer user) {
 		FixedHistory history = new FixedHistory(null, new Account(request.getSourceAccountId(), null, null), new Account(request.getDestinationAccountId(), null, null), new Fixed(request.getFixedId(), null, null, null));
+		history.setUpdater(user);
 		repositoryRegistry.getFixedHistoryRepository().save(history);
 
 		Fixed fixed = repositoryRegistry.getFixedRepository().findById(request.getFixedId()).get();

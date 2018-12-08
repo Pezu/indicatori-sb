@@ -26,5 +26,6 @@ public class RepositoryRegistry {
     private final FixedRepository fixedRepository;
     private final AccountsRepository accountsRepository;
     private final FixedHistoryRepository fixedHistoryRepository;
+    private final DefaultSplitRepository defaultSplitRepository;
  
 }

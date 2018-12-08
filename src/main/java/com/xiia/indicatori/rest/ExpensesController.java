@@ -66,6 +66,23 @@ public class ExpensesController {
 		
 	}
     
+    @RequestMapping(value = "/default-split/{unit_id}/{article_id}",
+			method = {RequestMethod.GET},
+			produces = {MediaType.APPLICATION_JSON_VALUE})
+	public Integer getDefaultSplit(@PathVariable("unit_id") Integer unitId,
+									@PathVariable("article_id") Integer articleId,
+									HttpServletResponse response, 
+									@RequestHeader("token") String token) 
+											throws IOException {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
+			response.sendError(1001, "Token invalid");
+		}
+		
+		return expenseService.getDefaultSplit(unitId, articleId);
+		
+	}
+    
     @RequestMapping(value = "/split-create",
 			method = {RequestMethod.POST},
 			produces = {MediaType.APPLICATION_JSON_VALUE})

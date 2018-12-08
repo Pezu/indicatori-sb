@@ -101,7 +101,9 @@ public class FixedService {
 		history.setUpdater(user);
 		repositoryRegistry.getFixedHistoryRepository().save(history);
 
-		Fixed fixed = repositoryRegistry.getFixedRepository().findById(request.getFixedId()).get();
+		Fixed fixed = repositoryRegistry.getFixedRepository().findById(request.getFixedId()).orElse(null);
+		if (fixed == null) return false;
+		
 		fixed.setAccount(new Account(request.getDestinationAccountId(), null, null));
 		repositoryRegistry.getFixedRepository().save(fixed);
 		

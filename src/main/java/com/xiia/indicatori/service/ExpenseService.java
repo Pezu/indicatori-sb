@@ -14,6 +14,7 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Service;
 
+import com.xiia.indicatori.domain.DefaultSplit;
 import com.xiia.indicatori.domain.Expense;
 import com.xiia.indicatori.domain.Monthly;
 import com.xiia.indicatori.domain.MonthlyAllowed;
@@ -22,8 +23,8 @@ import com.xiia.indicatori.domain.Relation;
 import com.xiia.indicatori.pojo.ExpenseRequest;
 import com.xiia.indicatori.pojo.ExpenseResponse;
 import com.xiia.indicatori.pojo.SplitChild;
-import com.xiia.indicatori.pojo.SplitRequest;
 import com.xiia.indicatori.pojo.SplitDetails;
+import com.xiia.indicatori.pojo.SplitRequest;
 import com.xiia.indicatori.repositories.RepositoryRegistry;
 
 @Service
@@ -275,6 +276,13 @@ public class ExpenseService {
 		
 		if (request.getUpdateWeight() == false) {
 			
+			StringBuilder sbs = new StringBuilder();
+			sbs.append(request.getParentUnitId());
+			sbs.append(".");
+			sbs.append(request.getArticleId());
+			DefaultSplit defaultSplit = new DefaultSplit(sbs.toString(), request.getSplitId()); 
+			repositoryRegistry.getDefaultSplitRepository().save(defaultSplit);
+			
 			Expense parentExpense = repositoryRegistry.getExpensesRepository().findOneById(request.getExpenseId());
 			
 			for (SplitChild split : request.getChildren()) {
@@ -333,6 +341,15 @@ public class ExpenseService {
 		} else {
 			repositoryRegistry.getExpensesRepository().deleteById(expenseToDelete);
 		}
+	}
+
+	public Integer getDefaultSplit(Integer unitId, Integer articleId) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(articleId);
+		sb.append(".");
+		sb.append(unitId);
+		DefaultSplit split = repositoryRegistry.getDefaultSplitRepository().findById(sb.toString()).orElse(null);
+		return split == null ? null : split.getSplitId();
 	}
 
 }

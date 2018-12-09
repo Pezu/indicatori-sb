@@ -79,7 +79,7 @@ public class ExpensesController {
 			response.sendError(1001, "Token invalid");
 		}
 		
-		return expenseService.getDefaultSplit(unitId, articleId);
+		return "{\"code\": \"" + expenseService.getDefaultSplit(unitId, articleId) + "\" }";
 		
 	}
     

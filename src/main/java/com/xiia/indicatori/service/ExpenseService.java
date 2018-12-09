@@ -277,9 +277,9 @@ public class ExpenseService {
 		if (request.getUpdateWeight() == false) {
 			
 			StringBuilder sbs = new StringBuilder();
-			sbs.append(request.getParentUnitId());
-			sbs.append(".");
 			sbs.append(request.getArticleId());
+			sbs.append(".");
+			sbs.append(request.getParentUnitId());
 			DefaultSplit defaultSplit = new DefaultSplit(sbs.toString(), request.getSplitCode()); 
 			repositoryRegistry.getDefaultSplitRepository().save(defaultSplit);
 			

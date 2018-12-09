@@ -1,11 +1,7 @@
 package com.xiia.indicatori.domain;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -27,7 +23,7 @@ public class DefaultSplit {
 	@Column(name = "id")
 	private String id;
 	
-	@Column(name = "split_id")
-	private Integer splitId;
+	@Column(name = "split_code")
+	private String splitCode;
 		
 }

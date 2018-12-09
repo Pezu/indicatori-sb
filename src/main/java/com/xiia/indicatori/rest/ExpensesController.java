@@ -69,7 +69,7 @@ public class ExpensesController {
     @RequestMapping(value = "/default-split/{unit_id}/{article_id}",
 			method = {RequestMethod.GET},
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Integer getDefaultSplit(@PathVariable("unit_id") Integer unitId,
+	public String getDefaultSplit(@PathVariable("unit_id") Integer unitId,
 									@PathVariable("article_id") Integer articleId,
 									HttpServletResponse response, 
 									@RequestHeader("token") String token) 

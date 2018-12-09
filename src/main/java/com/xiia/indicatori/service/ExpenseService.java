@@ -280,7 +280,7 @@ public class ExpenseService {
 			sbs.append(request.getParentUnitId());
 			sbs.append(".");
 			sbs.append(request.getArticleId());
-			DefaultSplit defaultSplit = new DefaultSplit(sbs.toString(), request.getSplitId()); 
+			DefaultSplit defaultSplit = new DefaultSplit(sbs.toString(), request.getSplitCode()); 
 			repositoryRegistry.getDefaultSplitRepository().save(defaultSplit);
 			
 			Expense parentExpense = repositoryRegistry.getExpensesRepository().findOneById(request.getExpenseId());
@@ -343,13 +343,13 @@ public class ExpenseService {
 		}
 	}
 
-	public Integer getDefaultSplit(Integer unitId, Integer articleId) {
+	public String getDefaultSplit(Integer unitId, Integer articleId) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(articleId);
 		sb.append(".");
 		sb.append(unitId);
 		DefaultSplit split = repositoryRegistry.getDefaultSplitRepository().findById(sb.toString()).orElse(null);
-		return split == null ? null : split.getSplitId();
+		return split == null ? null : split.getSplitCode();
 	}
 
 }

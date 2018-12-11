@@ -63,7 +63,6 @@ public class ExpenseService {
             	children = splitCustom(request.getArticleId(), request.getParentUnitId(), request.getMonth(), request.getExpenseId()); 
         } 
 		
-		System.out.println(children);
 		SplitDetails response = new SplitDetails(children, request.getParentUnitId(), request.getExpenseId(), request.getSplitId(), request.getSplitCode(), request.getMonth(), request.getArticleId(), request.getCategoryId(), request.getGroupId(), true);
 		return response;
 		
@@ -155,7 +154,7 @@ public class ExpenseService {
 		for(Percentage percentage : percentages) {
 			map.put(percentage.getChildId(), percentage.getValue());
 		}
-		
+				
 		List<Expense> expenses = repositoryRegistry.getExpensesRepository().findAllByParentId(parentExpenseId);
 		Map<Integer, Double> mapValues = new HashMap<Integer, Double>();
 		for(Expense expense : expenses) {
@@ -259,10 +258,12 @@ public class ExpenseService {
 
 	public Boolean isHsdAvailable(Integer unitId) {
 		
+		List<Relation> relationList = repositoryRegistry.getRelationsRepository().findAllByParentId(unitId);
+		if (relationList.size() == 0) return false;
+
 		List<MonthlyAllowed> allowedList = repositoryRegistry.getMonthlyAllowedRepository().findAllByMonthlyTypeId(1);
 		List<Integer> allowedIds = allowedList.stream().map(o -> o.getUnit().getId()).distinct().collect(Collectors.toList());
 		
-		List<Relation> relationList = repositoryRegistry.getRelationsRepository().findAllByParentId(unitId);
 		List<Integer> children = relationList.stream().map(o -> o.getChild().getId()).collect(Collectors.toList());
 		
 		for (Integer child : children) {
@@ -286,19 +287,18 @@ public class ExpenseService {
 			Expense parentExpense = repositoryRegistry.getExpensesRepository().findOneById(request.getExpenseId());
 			
 			for (SplitChild split : request.getChildren()) {
-				//article_id.parent_id.month.child_id
+				
+				List<Relation> children = repositoryRegistry.getRelationsRepository().findAllByParentId(split.getUnitId());
+				Integer splitId = null;
+				if (children.size() == 0) splitId = 5;
 				
 				StringBuilder sb = new StringBuilder();
-				sb.append(request.getArticleId());
-				sb.append(".");
-				sb.append(request.getParentUnitId());
-				sb.append(".");
-				sb.append(request.getMonth());
+				sb.append(request.getExpenseId());
 				sb.append(".");
 				sb.append(split.getUnitId());
 				
 				
-				Expense expense = new Expense(sb.toString(), split.getUnitId(), request.getArticleId(), request.getGroupId(), request.getCategoryId(), request.getMonth(), split.getValue(), false, null, parentExpense.getId(), parentExpense.getOriginalParentId() == null ? parentExpense.getId() : parentExpense.getOriginalParentId(), parentExpense.getDescription());
+				Expense expense = new Expense(sb.toString(), split.getUnitId(), request.getArticleId(), request.getGroupId(), request.getCategoryId(), request.getMonth(), split.getValue(), false, splitId, parentExpense.getId(), parentExpense.getOriginalParentId() == null ? parentExpense.getId() : parentExpense.getOriginalParentId(), parentExpense.getDescription());
 				expense.setUpdater(userId);
 				repositoryRegistry.getExpensesRepository().save(expense);
 			}
@@ -349,7 +349,7 @@ public class ExpenseService {
 		sb.append(".");
 		sb.append(unitId);
 		DefaultSplit split = repositoryRegistry.getDefaultSplitRepository().findById(sb.toString()).orElse(null);
-		return split == null ? null : split.getSplitCode();
+		return split == null ? "NUL" : split.getSplitCode();
 	}
 
 }

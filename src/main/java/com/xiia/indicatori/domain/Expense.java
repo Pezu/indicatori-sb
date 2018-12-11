@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "expenses")
 public class Expense extends Updater {
 
-	//article_id.parent_id.month.child_id pentru cele generate sau uuid pentru cele introduse
+	//parent_expense_id.unit_id pentru cele generate sau uuid pentru cele introduse
 	@Id
 	@Column(name = "id")
 	private String id;

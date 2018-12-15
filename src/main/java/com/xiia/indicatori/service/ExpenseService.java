@@ -63,6 +63,9 @@ public class ExpenseService {
             	children = splitCustom(request.getArticleId(), request.getParentUnitId(), request.getMonth(), request.getExpenseId()); 
         } 
 		
+		for (SplitChild child : children) {
+			child.setWeight(child.getWeight() == null ? 0 : child.getWeight());
+		}
 		SplitDetails response = new SplitDetails(children, request.getParentUnitId(), request.getExpenseId(), request.getSplitId(), request.getSplitCode(), request.getMonth(), request.getArticleId(), request.getCategoryId(), request.getGroupId(), true);
 		return response;
 		

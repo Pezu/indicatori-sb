@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.xiia.indicatori.domain.Unit;
 
-public interface UnitsRepository extends JpaRepository<Unit, Long> {
+public interface UnitsRepository extends JpaRepository<Unit, Integer> {
 
 }

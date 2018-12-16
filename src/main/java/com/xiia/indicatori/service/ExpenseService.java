@@ -185,6 +185,10 @@ public class ExpenseService {
 
 	public Boolean insertExpense(Expense expense) {
 		expense.setId(UUID.randomUUID().toString());
+		List<Relation> children = repositoryRegistry.getRelationsRepository().findAllByParentId(expense.getUnitId());
+		Integer splitId = null;
+		if (children.size() == 0) splitId = 5;
+		expense.setSplitId(splitId);
 		repositoryRegistry.getExpensesRepository().save(expense);
 		return true;
 	}
@@ -301,7 +305,7 @@ public class ExpenseService {
 				sb.append(split.getUnitId());
 				
 				
-				Expense expense = new Expense(sb.toString(), split.getUnitId(), request.getArticleId(), request.getGroupId(), request.getCategoryId(), request.getMonth(), split.getValue(), false, splitId, parentExpense.getId(), parentExpense.getOriginalParentId() == null ? parentExpense.getId() : parentExpense.getOriginalParentId(), parentExpense.getDescription());
+				Expense expense = new Expense(sb.toString(), split.getUnitId(), request.getArticleId(), request.getGroupId(), request.getCategoryId(), request.getMonth(), split.getValue(), false, splitId, parentExpense.getId(), parentExpense.getUnitId(), parentExpense.getOriginalParentId() == null ? parentExpense.getId() : parentExpense.getOriginalParentId(), parentExpense.getDescription());
 				expense.setUpdater(userId);
 				repositoryRegistry.getExpensesRepository().save(expense);
 			}

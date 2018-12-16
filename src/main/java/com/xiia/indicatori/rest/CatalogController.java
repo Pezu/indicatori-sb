@@ -19,8 +19,10 @@ import com.xiia.indicatori.domain.Article;
 import com.xiia.indicatori.domain.Category;
 import com.xiia.indicatori.domain.Group;
 import com.xiia.indicatori.domain.MonthlyType;
+import com.xiia.indicatori.domain.Rapport;
 import com.xiia.indicatori.domain.Split;
 import com.xiia.indicatori.domain.Unit;
+import com.xiia.indicatori.domain.User;
 import com.xiia.indicatori.pojo.AutocompleteEntry;
 import com.xiia.indicatori.service.CatalogService;
 import com.xiia.indicatori.service.LoginService;
@@ -45,6 +47,24 @@ public class CatalogController {
     		response.sendError(1001, "Token invalid");
     	}
         return catalogService.getCategories();
+    }
+    
+    @GetMapping("/users")
+    public List<User> getUsers(HttpServletResponse response, @RequestHeader("token") String token) throws IOException {
+    	Integer user = loginService.verifyToken(token);
+    	if (user == null) {
+    		response.sendError(1001, "Token invalid");
+    	}
+        return catalogService.getUsers();
+    }
+    
+    @GetMapping("/rapports")
+    public List<Rapport> getRapports(HttpServletResponse response, @RequestHeader("token") String token) throws IOException {
+    	Integer user = loginService.verifyToken(token);
+    	if (user == null) {
+    		response.sendError(1001, "Token invalid");
+    	}
+        return catalogService.getRapports();
     }
     
     @GetMapping("/accounts")

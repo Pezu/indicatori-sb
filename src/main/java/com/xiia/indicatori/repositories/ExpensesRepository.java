@@ -11,5 +11,7 @@ public interface ExpensesRepository extends JpaRepository<Expense, String> {
 	public List<Expense> findAllByParentId(String parentId);
 
 	public Expense findOneById(String id);
+
+	public List<Expense> findAllByUnitIdIn(List<Integer> children);
 	
 }

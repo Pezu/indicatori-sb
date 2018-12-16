@@ -11,5 +11,7 @@ public interface MonthlyRepository extends JpaRepository<Monthly, Long> {
 	public List<Monthly> findAllByMonthAndTypeId(String month, Integer typeId);
 
 	public Monthly findOneByMonthAndTypeIdAndUnitId(String month, Integer typeId, Integer unitId);
+
+	public List<Monthly> findAllByMonth(String month);
 	
 }

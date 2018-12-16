@@ -2,12 +2,9 @@ package com.xiia.indicatori.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -20,8 +17,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "fixed")
-public class Fixed {
+@Table(name = "rapports")
+public class Rapport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -33,16 +30,6 @@ public class Fixed {
 	
 	@Column(name = "name")
 	private String name;
-	
-//	@Column(name = "quantity")
-//	private Double quantity;
-//	
-//	@Column(name = "price")
-//	private Double price;
-//	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "account_id", nullable = false)
-	private Account account;
 	
 	
 }

@@ -50,6 +50,9 @@ public class Expense extends Updater {
 	@Column(name = "parent_id")
 	private String parentId;
 	
+	@Column(name = "parent_unit_id")
+	private Integer parentUnitId;
+	
 	@Column(name = "original_parent_id")
 	private String originalParentId;
 	

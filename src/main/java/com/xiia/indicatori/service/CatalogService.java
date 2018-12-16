@@ -2,6 +2,7 @@ package com.xiia.indicatori.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -11,9 +12,11 @@ import com.xiia.indicatori.domain.Article;
 import com.xiia.indicatori.domain.Category;
 import com.xiia.indicatori.domain.Group;
 import com.xiia.indicatori.domain.MonthlyType;
+import com.xiia.indicatori.domain.Rapport;
 import com.xiia.indicatori.domain.Relation;
 import com.xiia.indicatori.domain.Split;
 import com.xiia.indicatori.domain.Unit;
+import com.xiia.indicatori.domain.User;
 import com.xiia.indicatori.pojo.AutocompleteEntry;
 import com.xiia.indicatori.repositories.RepositoryRegistry;
 
@@ -85,6 +88,14 @@ public class CatalogService {
 
 	public List<Account> getAccounts() {
 		return repositoryRegistry.getAccountsRepository().findAll();
+	}
+
+	public List<User> getUsers() {
+		return repositoryRegistry.getUsersRepository().findAll().stream().peek(u -> u.setPassword(null)).collect(Collectors.toList());
+	}
+
+	public List<Rapport> getRapports() {
+		return repositoryRegistry.getRapportsRepository().findAll();
 	}
     
 }

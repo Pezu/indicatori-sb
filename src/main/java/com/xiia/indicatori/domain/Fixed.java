@@ -34,12 +34,9 @@ public class Fixed {
 	@Column(name = "name")
 	private String name;
 	
-//	@Column(name = "quantity")
-//	private Double quantity;
-//	
-//	@Column(name = "price")
-//	private Double price;
-//	
+	@Column(name = "price")
+	private Double price;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "account_id", nullable = false)
 	private Account account;

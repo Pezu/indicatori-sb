@@ -41,7 +41,7 @@ public class RapportsService {
     	this.entityManager = entityManager;
 	}
 
-	public List<SummaryLine> read(String rapport, String month) {
+	public List<SummaryLine> readSummary(String month) {
 		
 		List<SummaryLine> response = new ArrayList<SummaryLine>();
 		
@@ -156,11 +156,7 @@ public class RapportsService {
 		return response;
 	}
 
-	public String export(String rapport) {
-		return null;
-	}
-
-	public XSSFWorkbook workbook(String rapport, String month) {
+	public XSSFWorkbook workbookSummary(String month) {
 		
 		String sheetName = "Centralizator";
 		
@@ -194,7 +190,7 @@ public class RapportsService {
 			cell.setCellValue(headerNames.get(i));
 		}
 		
-		List<SummaryLine> lines = read(rapport, month);
+		List<SummaryLine> lines = readSummary(month);
 		XSSFCell cell = null;
 
 		for (int i = 0; i < lines.size(); i++) {

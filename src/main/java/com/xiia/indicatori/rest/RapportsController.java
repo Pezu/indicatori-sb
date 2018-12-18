@@ -33,10 +33,10 @@ public class RapportsController {
     }  
 	
     
-    @RequestMapping(value = "/read/{rapport}",
+    @RequestMapping(value = "/read/summary/{month}",
 			method = {RequestMethod.GET},
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	public List<SummaryLine> read(@PathVariable("rapport") String rapport,
+	public List<SummaryLine> readSummary(@PathVariable("month") String month,
 									HttpServletResponse response, 
 									@RequestHeader("token") String token) 
 											throws IOException {
@@ -45,44 +45,54 @@ public class RapportsController {
 			response.sendError(1001, "Token invalid");
 		}
 		
-		String month = "201812";
-		return rapportsService.read(rapport, month);
+		return rapportsService.readSummary(month);
 		
 	}
    
-    @RequestMapping(value = "/export/{rapport}",
+    @RequestMapping(value = "/export/summary/{month}",
 			method = {RequestMethod.GET},
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	public String export(@PathVariable("rapport") String rapport,
-									HttpServletResponse response, 
-									@RequestHeader("token") String token) 
+	public void export(@PathVariable("month") String month,
+									HttpServletResponse response) 
 											throws IOException {
-		Integer user = loginService.verifyToken(token);
-		if (user == null) {
-			response.sendError(1001, "Token invalid");
-		}
-		
-		return rapportsService.export(rapport);
-		
-	}
-    
-    
-    @RequestMapping(value = "/test",
-    		method = {RequestMethod.GET},
-			produces = {MediaType.APPLICATION_JSON_VALUE})
-	public void test(HttpServletResponse response) throws IOException {
-
-    	String month = "201812";
-		String rapport = "CTR";
+		XSSFWorkbook wb = rapportsService.workbookSummary(month);
     	
-    	XSSFWorkbook wb = rapportsService.workbook(rapport, month);
-    	
-    	response.setHeader("Content-disposition", "attachment; filename=test.xlsx");
+    	response.setHeader("Content-disposition", "attachment; filename=centralizator.xlsx");
     	wb.write(response.getOutputStream()); 
 		
 	}
-    
-    
+
+    @RequestMapping(value = "/read/fixed-balance/{month}",
+			method = {RequestMethod.GET},
+			produces = {MediaType.APPLICATION_JSON_VALUE})
+	public List<SummaryLine> readFixedBalance(@PathVariable("month") String month,
+									HttpServletResponse response, 
+									@RequestHeader("token") String token) 
+											throws IOException {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
+			response.sendError(1001, "Token invalid");
+		}
+		
+		return rapportsService.readSummary(month);
+		
+	}
    
-	
+    @RequestMapping(value = "/read/fixed-stock/{month}",
+			method = {RequestMethod.GET},
+			produces = {MediaType.APPLICATION_JSON_VALUE})
+	public List<SummaryLine> readFixedStock(@PathVariable("month") String month,
+									HttpServletResponse response, 
+									@RequestHeader("token") String token) 
+											throws IOException {
+		Integer user = loginService.verifyToken(token);
+		if (user == null) {
+			response.sendError(1001, "Token invalid");
+		}
+		
+		return rapportsService.readSummary(month);
+		
+	}
+   
+
 }

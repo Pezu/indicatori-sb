@@ -41,9 +41,13 @@ public class FixedService {
 	}
 
 	public Boolean create(FixedCreateRequest request, Integer user) {
-		Fixed fixed = new Fixed(null, request.getCode(), request.getName(), new Account(request.getAccountId(), null, null));
-		fixed = repositoryRegistry.getFixedRepository().save(fixed);
-		if (fixed.getId() == null) return false;
+		
+		for (String code : request.getArtList()) {
+			Fixed fixed = new Fixed(null, code, request.getName(), request.getPret(), new Account(request.getAccountId(), null, null));
+			fixed = repositoryRegistry.getFixedRepository().save(fixed);
+			if (fixed.getId() == null) return false;
+		}
+		
 		return true;
 	}
 
@@ -97,7 +101,7 @@ public class FixedService {
 	}
 
 	public Boolean move(FixedMoveRequest request, Integer user) {
-		FixedHistory history = new FixedHistory(null, new Account(request.getSourceAccountId(), null, null), new Account(request.getDestinationAccountId(), null, null), new Fixed(request.getFixedId(), null, null, null));
+		FixedHistory history = new FixedHistory(null, new Account(request.getSourceAccountId(), null, null), new Account(request.getDestinationAccountId(), null, null), new Fixed(request.getFixedId(), null, null, null, null));
 		history.setUpdater(user);
 		repositoryRegistry.getFixedHistoryRepository().save(history);
 
